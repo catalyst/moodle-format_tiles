@@ -60,7 +60,7 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
     /**
      * Tests set up
      */
-    protected function setUp() {
+    protected function setUp(): void {
         global $CFG;
         require_once($CFG->dirroot . '/course/format/tiles/externallib.php');
     }
@@ -78,7 +78,6 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
     public function test_set_image() {
         global $DB;
 
-        $this->resetAfterTest(true);
 
         $course  = self::getDataGenerator()->create_course($this->tilescourseformatoptions);
 
@@ -144,7 +143,6 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
     public function test_set_session_width() {
         global $DB, $SESSION;
 
-        $this->resetAfterTest(true);
 
         $course  = self::getDataGenerator()->create_course($this->tilescourseformatoptions);
 

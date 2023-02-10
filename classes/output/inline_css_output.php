@@ -155,7 +155,7 @@ class inline_css_output implements \renderable, \templatable {
             }
         }
         // We are following theme's main colour so find out what it is.
-        if (!$basecolour || !hexdec($basecolour)) {
+        if (!$basecolour || !hexdec(preg_replace('/^#/', '', $basecolour))) {
             // If boost theme is in use, it uses "brandcolor" so try to get that if current theme has it.
             $basecolour = get_config('theme_' . $PAGE->theme->name, 'brandcolor');
             if (!$basecolour) {

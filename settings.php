@@ -109,7 +109,7 @@ if ($ADMIN->fulltree) {
 
     // Modal windows for course modules.
     $allowedmodtypes = ['page' => 1]; // Number is default to on or off.
-    $allmodtypes = get_module_types_names();
+    $allmodtypes = \container_course\course_helper::get_all_modules();
     $options = [];
     foreach (array_keys($allowedmodtypes) as $modtype) {
         if (isset($allmodtypes[$modtype])) {
