@@ -291,79 +291,88 @@ define(["jquery", "core/templates", "core/ajax", "core/str", "core/notification"
                 // We only have one modal per page which we recycle.  We dont have it yet so create it.
 
                 var renderModal = function() {
-                    Templates.render("format_tiles/icon_picker_modal_body", {
-                        /* eslint-disable-next-line camelcase */
-                        icon_picker_icons: iconSet,
-                        photosallowed: allowPhotoTiles,
-                        wwwroot: config.wwwroot,
-                        documentationurl: documentationurl,
-                        istotara: $("body").hasClass("totara")
-                    }).done(function (iconsHTML) {
-                        require(["core/modal_factory"], function (modalFact) {
-                            modalFact.create({
-                                type: modalFact.types.DEFAULT,
-                                title: stringStore.pickAnIcon,
-                                body: iconsHTML
-                            }).done(function (modal) {
-                                modalStored = modal;
-                                modal.setLarge();
-                                modal.show();
-                                var modalRoot = $(modal.root);
-                                modalRoot.attr("id", "icon_picker_modal");
-                                modalRoot.attr("data-sectionid", sectionId);
-                                modalRoot.attr("data-section", section);
-                                modalRoot.addClass("icon_picker_modal");
-                                modalRoot.on("click", ".pickericon", function (e) {
-                                    var newIcon = $(e.currentTarget);
-                                    setIcon(
-                                        sectionId,
-                                        section,
-                                        newIcon.attr("data-icon"),
-                                        newIcon.attr("title"),
-                                        pageType,
-                                        courseId,
-                                        'tileicon',
-                                        newIcon.attr("data-contextid"), // For existing photos - sourcecontextid.
-                                        newIcon.attr("data-itemid") // For existing photos - sourcetemid.
-                                    );
-                                    modal.hide();
-                                });
-                                // Icon search box handling.
-                                modalRoot.on("input", "input.iconsearch", function (e) {
-                                    var searchText = e.currentTarget.value.toLowerCase();
-                                    modalRoot.find(".pickericon").show();
-                                    if (searchText.length >= 3) {
-                                        modalRoot.find(".pickericon").filter(function (index, icon) {
-                                            // Show all icons then hide icons which do not match the search term.
-                                            return $(icon).attr('data-original-title').toLowerCase().indexOf(searchText) < 0;
-                                        }).hide();
-                                    }
-                                });
-                                try {
-                                    $(".pickericon").tooltip();
-                                } catch (err) {
-                                    require(["core/log"], function (log) {
-                                        log.debug(err);
+                    str.get_strings([
+                        {key: "photolibrary", component: "format_tiles"},
+                        {key: "documentation", component: "format_tiles"},
+                        {key: "search"}
+                    ]).done(function (strings) {
+                        Templates.render("format_tiles/icon_picker_modal_body", {
+                            /* eslint-disable-next-line camelcase */
+                            icon_picker_icons: iconSet,
+                            photosallowed: allowPhotoTiles,
+                            wwwroot: config.wwwroot,
+                            documentationurl: documentationurl,
+                            istotara: $("body").hasClass("totara"),
+                            photolibrarystring: strings[0],
+                            documentationstring: strings[1],
+                            searchstring: strings[2]
+                        }).done(function (iconsHTML) {
+                            require(["core/modal_factory"], function (modalFact) {
+                                modalFact.create({
+                                    type: modalFact.types.DEFAULT,
+                                    title: stringStore.pickAnIcon,
+                                    body: iconsHTML
+                                }).done(function (modal) {
+                                    modalStored = modal;
+                                    modal.setLarge();
+                                    modal.show();
+                                    var modalRoot = $(modal.root);
+                                    modalRoot.attr("id", "icon_picker_modal");
+                                    modalRoot.attr("data-sectionid", sectionId);
+                                    modalRoot.attr("data-section", section);
+                                    modalRoot.addClass("icon_picker_modal");
+                                    modalRoot.on("click", ".pickericon", function (e) {
+                                        var newIcon = $(e.currentTarget);
+                                        setIcon(
+                                            sectionId,
+                                            section,
+                                            newIcon.attr("data-icon"),
+                                            newIcon.attr("title"),
+                                            pageType,
+                                            courseId,
+                                            'tileicon',
+                                            newIcon.attr("data-contextid"), // For existing photos - sourcecontextid.
+                                            newIcon.attr("data-itemid") // For existing photos - sourcetemid.
+                                        );
+                                        modal.hide();
                                     });
-                                }
-                                if (allowPhotoTiles) {
-                                    // Set the URL for the photo tile button if used (done dynamically as contains section id).
-                                    var url = getPhotoTileButtonUrl(courseId, sectionId);
-                                    modalRoot.find('#phototilebtn')
-                                        .attr('href', url);
-                                    // Now that we have modal, if photo library tab is clicked we need to lazy load the photos.
-                                    $("#launch-photo-library").click(function () {
-                                        if (recentPhotoSet.length !== 0) {
-                                            Templates.render("format_tiles/icon_picker_photos", {
-                                                /* eslint-disable-next-line camelcase */
-                                                icon_picker_photos: recentPhotoSet,
-                                                wwwroot: config.wwwroot
-                                            }).done(function (photosHTML) {
-                                                populatePhotoLibrary(photosHTML, modalRoot, modal);
-                                            });
+                                    // Icon search box handling.
+                                    modalRoot.on("input", "input.iconsearch", function (e) {
+                                        var searchText = e.currentTarget.value.toLowerCase();
+                                        modalRoot.find(".pickericon").show();
+                                        if (searchText.length >= 3) {
+                                            modalRoot.find(".pickericon").filter(function (index, icon) {
+                                                // Show all icons then hide icons which do not match the search term.
+                                                return $(icon).attr('data-original-title').toLowerCase().indexOf(searchText) < 0;
+                                            }).hide();
                                         }
                                     });
-                                }
+                                    try {
+                                        $(".pickericon").tooltip();
+                                    } catch (err) {
+                                        require(["core/log"], function (log) {
+                                            log.debug(err);
+                                        });
+                                    }
+                                    if (allowPhotoTiles) {
+                                        // Set the URL for the photo tile button if used (done dynamically as contains section id).
+                                        var url = getPhotoTileButtonUrl(courseId, sectionId);
+                                        modalRoot.find('#phototilebtn')
+                                            .attr('href', url);
+                                        // Now that we have modal, if photo library tab is clicked we need to lazy load the photos.
+                                        $("#launch-photo-library").click(function () {
+                                            if (recentPhotoSet.length !== 0) {
+                                                Templates.render("format_tiles/icon_picker_photos", {
+                                                    /* eslint-disable-next-line camelcase */
+                                                    icon_picker_photos: recentPhotoSet,
+                                                    wwwroot: config.wwwroot
+                                                }).done(function (photosHTML) {
+                                                    populatePhotoLibrary(photosHTML, modalRoot, modal);
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
                             });
                         });
                     });
