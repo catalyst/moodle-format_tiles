@@ -65,7 +65,7 @@
         <div class="tab-pane {{#istotara}} active in{{/istotara}}{{^istotara}} show active{{/istotara}}" id="tileicons" role="tabpanel" aria-labelledby="tileicons-tab">
             <div class="iconpickerheader">
                 {{#str}}search{{/str}}
-                {{#pix}}a/search, core, {{#str}}search{{/str}}{{/pix}}
+                {{#pix}}a/search, core, search{{/pix}}
                 <input name="{{#str}}search{{/str}}" type="text" class="iconsearch inline" style="width: 20em;">
             </div>
 
@@ -91,7 +91,7 @@
 {{^photosallowed}}
     <div class="iconpickerheader">
         {{#str}}search{{/str}}
-        {{#pix}}a/search, core, {{#str}}search{{/str}}{{/pix}}
+        {{#pix}}a/search, core, search{{/pix}}
         <input name="{{#str}}search{{/str}}" type="text" class="iconsearch inline" style="width: 20em;">
 
         {{#show_photo_button}}
@@ -107,7 +107,7 @@
 {{#documentationurl}}
     <div>
         <a href="{{{documentationurl}}}" target="_blank">
-            {{#pix}}help, core, {{#str}}documentation, format_tiles{{/str}}{{/pix}}{{#str}}documentation, format_tiles{{/str}}
+            {{#pix}}help, core, documentation, format_tiles{{/pix}}{{#str}}documentation, format_tiles{{/str}}
         </a>
     </div>
 {{/documentationurl}}

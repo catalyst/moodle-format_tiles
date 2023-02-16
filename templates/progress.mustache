@@ -59,8 +59,8 @@
 {{#isComplete}}
     <div class="progress-indic{{#showAsPercent}} percent{{/showAsPercent}}{{#isOverall}} overall-progress allcomplete{{/isOverall}}"
          id="tileprogress-{{tileid}}" data-numcomplete="{{numComplete}}" data-numoutof="{{numOutOf}}">
-        {{#isOverall}}{{#pix}}star-o, format_tiles, {{#str}}allcomplete, format_tiles{{/str}}{{/pix}}{{#str}}allcomplete, format_tiles{{/str}}{{/isOverall}}
-        {{^isOverall}}{{#pix}}check, format_tiles, {{#str}}allcomplete, format_tiles{{/str}}{{/pix}}{{/isOverall}}
+        {{#isOverall}}{{#pix}}star-o, format_tiles, allcomplete, format_tiles{{/pix}}{{#str}}allcomplete, format_tiles{{/str}}{{/isOverall}}
+        {{^isOverall}}{{#pix}}check, format_tiles, allcomplete, format_tiles{{/pix}}{{/isOverall}}
     </div>
 {{/isComplete}}
 

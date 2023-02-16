@@ -89,13 +89,13 @@
                 <div id="sectionbuttons">
                         <span class="sectionbutton closesectionbtn pull-right" id="closesectionbtn-{{tileid}}"
                               title="{{#str}}close, format_tiles{{/str}}" tabindex="3" data-section="{{tileid}}">
-                            {{#pix}}close, format_tiles, {{#str}}close, format_tiles{{/str}}{{/pix}}
+                            {{#pix}}close, format_tiles, close, format_tiles{{/pix}}
                         </span>
                     {{#canedit}}
                         {{^isediting}}
                             <a class="sectionbutton pull-right" id="editsectiontbtn-{{tileid}}"
                                href="{{{ config.wwwroot }}}/course/view.php?id={{courseid}}&section={{tileid}}&sesskey={{sesskey}}&edit=on">
-                            {{#pix}}pencil, format_tiles, {{#str}}edit{{/str}}{{/pix}}
+                            {{#pix}}pencil, format_tiles, edit{{/pix}}
                             </a>
                         {{/isediting}}
                     {{/canedit}}
@@ -170,7 +170,7 @@
                        data-container="body" data-toggle="popover"
                        data-placement="left" data-content="{{#str}}completion_help, format_tiles{{/str}}"
                        data-html="true" tabindex="-1" data-trigger="focus">
-                        {{#pix}}help, core, {{alt}}{{/pix}}
+                        {{#pix}}help, core, completion_help, format_tiles{{/pix}}
                     </a>
                     </span>
             {{/completion_help}}
