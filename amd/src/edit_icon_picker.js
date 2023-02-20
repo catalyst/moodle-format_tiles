@@ -53,7 +53,18 @@ define(["jquery", "core/templates", "core/ajax", "core/str", "core/notification"
                 }
                 var icons = JSON.parse(response.icons);
                 Object.keys(icons).forEach(function(icon) {
-                    iconSet.push({filename: 'tileicon/' + icon, displayname: icons[icon]});
+                    iconSet.push({
+                        filename: 'tileicon/' + icon,
+                        displayname: icons[icon],
+                        tileiconcontext: {
+                            attributes: [
+                                {
+                                    name: 'src',
+                                    value: config.wwwroot + '/theme/image.php?theme=' + config.theme + '&component=format_tiles&image=' + 'tileicon/' + icon,
+                                }
+                            ]
+                        }
+                    });
                 });
                 if (iconSet.length <= 0) {
                     require(["core/log"], function(log) {

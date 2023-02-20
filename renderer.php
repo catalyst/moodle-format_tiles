@@ -60,7 +60,7 @@ class format_tiles_renderer extends format_section_renderer_base
 
     /**
      * Return an instance of the mustache class.
-     * If this is a Totara environment, we need to enable {{#pix}} to bs used from Mustache.
+     * If this is a Totara environment, we need to enable {{#ftpix}} to bs used from Mustache.
      * (Totara uses {{#flex_icon}} instead but we don't want to modify all the templates).
      *
      * @since 2.9
@@ -69,7 +69,7 @@ class format_tiles_renderer extends format_section_renderer_base
     protected function get_mustache() {
         if ($this->istotara) {
             $pixhelper = new format_tiles\output\mustache_pix_helper($this);
-            parent::get_mustache()->addHelper('pix', [$pixhelper, 'pix']);
+            parent::get_mustache()->addHelper('ftpix', [$pixhelper, 'ftpix']);
         }
         return parent::get_mustache();
     }

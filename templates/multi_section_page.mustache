@@ -102,11 +102,11 @@
     <div class="expand-collapse-all-btns">
         <a class="btn btn-secondary" data-action="expand-all" title="{{#str}}expandall, format_tiles{{/str}}"
            href="{{{config.wwwroot}}}/course/view.php?id={{courseid}}&expanded=1" id="expand-all-btn">
-        {{#pix}}expand, format_tiles{{/pix}}&nbsp;{{#str}}expandall, format_tiles{{/str}}
+        {{#ftpix}}expand, format_tiles{{/ftpix}}&nbsp;{{#str}}expandall, format_tiles{{/str}}
         </a>
         <a class="btn btn-secondary" data-action="collaspse-all" title="{{#str}}collapsesections, format_tiles{{/str}}"
             href="{{{config.wwwroot}}}/course/view.php?id={{courseid}}&expanded=-1" id="collapse-all-btn">
-        {{#pix}}collapse, format_tiles{{/pix}}&nbsp;{{#str}}collapsesections, format_tiles{{/str}}
+        {{#ftpix}}collapse, format_tiles{{/ftpix}}&nbsp;{{#str}}collapsesections, format_tiles{{/str}}
         </a>
     </div>
 {{/isediting}}
@@ -146,7 +146,7 @@
 {{#isediting}}
     <span id="changenumsections">
         <a data-add-sections="{{#str}}addsections, format_tiles{{/str}}" class="pull-right mt-3" href="{{{ config.wwwroot }}}/course/changenumsections.php?courseid={{courseid}}&sesskey={{sesskey}}&insertsection=0&sectionreturn=0">
-            {{#pix}}t/switch_plus, core, addsections, format_tiles{{/pix}} {{#str}}addsections, format_tiles{{/str}}
+            {{#ftpix}}t/switch_plus, core, addsections, format_tiles{{/ftpix}} {{#str}}addsections, format_tiles{{/str}}
         </a>
     </span>
 {{/isediting}}

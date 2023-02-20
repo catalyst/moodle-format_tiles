@@ -36,11 +36,16 @@
     Example context (json):
     {
         "filename": "puzzle-piece",
-        "displayname": "Puzzle Piece"
+        "displayname": "Puzzle Piece",
+        "tileiconcontext": {
+            "attributes": {
+                "url": "https://..."
+            }
+        }
     }
 }}
 <div class="pickericondiv tile-icon pickericon" id="pickericon-{{filename}}" title="{{displayname}}" data-icon="{{filename}}" data-dismiss="modal"
      {{#displayname}}data-toggle="tooltip" data-placement="right" data-original-title="{{displayname}}"{{/displayname}}
      data-imagetype="tileicon">
-        {{#pix}}{{filename}}, format_tiles{{/pix}}
+        {{#tileiconcontext}}{{> core/pix_icon}}{{/tileiconcontext}}
 </div>

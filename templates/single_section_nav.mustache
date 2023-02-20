@@ -49,27 +49,27 @@
     {{#previous_tile_id}}
         <a class="navigation-arrow"
            href="{{{ config.wwwroot }}}/course/view.php?id={{courseid}}&section={{previous_tile_id}}&singlesec={{previous_tile_id}}">
-            {{#pix}}chevron-left, format_tiles, previoustopic, format_tiles{{/pix}}
+            {{#ftpix}}chevron-left, format_tiles, previoustopic, format_tiles{{/ftpix}}
         </a>
     {{/previous_tile_id}}
     {{^previous_tile_id}}
         <span class="navigation-arrow dimmed">
-            {{#pix}}chevron-left, format_tiles, previoustopic, format_tiles{{/pix}}
+            {{#ftpix}}chevron-left, format_tiles, previoustopic, format_tiles{{/ftpix}}
         </span>
     {{/previous_tile_id}}
 
     {{#next_tile_id}}
         <a class="navigation-arrow"
            href="{{{ config.wwwroot }}}/course/view.php?id={{courseid}}&section={{next_tile_id}}&singlesec={{next_tile_id}}">
-            {{#pix}}chevron-right, format_tiles, nexttopic, format_tiles{{/pix}}
+            {{#ftpix}}chevron-right, format_tiles, nexttopic, format_tiles{{/ftpix}}
         </a>
     {{/next_tile_id}}
     {{^next_tile_id}}
         <span class="navigation-arrow dimmed">
-            {{#pix}}chevron-right, format_tiles, nexttopic, format_tiles{{/pix}}
+            {{#ftpix}}chevron-right, format_tiles, nexttopic, format_tiles{{/ftpix}}
         </span>
     {{/next_tile_id}}
     <a class="navigation-arrow" href="{{{ config.wwwroot }}}/course/view.php?id={{courseid}}">
-        {{#pix}}home, format_tiles, home, format_tiles{{/pix}}
+        {{#ftpix}}home, format_tiles, home, format_tiles{{/ftpix}}
     </a>
 </div>

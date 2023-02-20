@@ -19,7 +19,7 @@
  *
  * This class is only required if a Totara environment is detected.
  * Moodle has its own equivalent in lib/classes/output on which this is heavily based.
- * Totara does not have this, hence including it here so we can use {{#pix}} in mustache.
+ * Totara does not have this, hence including it here so we can use {{#ftpix}} in mustache.
  *
  * @package    core
  * @category   output
@@ -55,7 +55,7 @@ class mustache_pix_helper {
     /**
      * Read a pix icon name from a template and get it from pix_icon.
      *
-     * {{#pix}}t/edit,component,Anything else is alt text{{/pix}}
+     * {{#ftpix}}t/edit,component,Anything else is alt text{{/ftpix}}
      *
      * The args are comma separated and only the first is required.
      *
@@ -63,7 +63,7 @@ class mustache_pix_helper {
      * @param Mustache_LambdaHelper $helper Used to render nested mustache variables.
      * @return string
      */
-    public function pix($text, Mustache_LambdaHelper $helper) {
+    public function ftpix($text, Mustache_LambdaHelper $helper) {
         // Split the text into an array of variables.
         $key = strtok($text, ",");
         $key = trim($helper->render($key));

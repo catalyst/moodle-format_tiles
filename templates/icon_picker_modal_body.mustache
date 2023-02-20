@@ -53,10 +53,10 @@
             <a class="nav-link{{^istotara}} active{{/istotara}}" href="#tileicons" data-toggle="tab" role="tab">{{#str}}tileicons, format_tiles{{/str}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="launch-photo-library" href="#photolibrary" data-toggle="tab" role="tab">{{#pix}}camera, format_tiles{{/pix}} {{#str}}photolibrary, format_tiles{{/str}}</a>
+            <a class="nav-link" id="launch-photo-library" href="#photolibrary" data-toggle="tab" role="tab">{{#ftpix}}camera, format_tiles{{/ftpix}} {{#str}}photolibrary, format_tiles{{/str}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="phototilebtn" href="#">{{#pix}}cloud-upload, format_tiles{{/pix}}{{#str}}uploadnewphoto, format_tiles{{/str}}</a>
+            <a class="nav-link" id="phototilebtn" href="#">{{#ftpix}}cloud-upload, format_tiles{{/ftpix}}{{#str}}uploadnewphoto, format_tiles{{/str}}</a>
         </li>
     </ul>
 
@@ -65,7 +65,7 @@
         <div class="tab-pane {{#istotara}} active in{{/istotara}}{{^istotara}} show active{{/istotara}}" id="tileicons" role="tabpanel" aria-labelledby="tileicons-tab">
             <div class="iconpickerheader">
                 {{#str}}search{{/str}}
-                {{#pix}}a/search, core, search{{/pix}}
+                {{#ftpix}}a/search, core, search{{/ftpix}}
                 <input name="{{#str}}search{{/str}}" type="text" class="iconsearch inline" style="width: 20em;">
             </div>
 
@@ -91,7 +91,7 @@
 {{^photosallowed}}
     <div class="iconpickerheader">
         {{#str}}search{{/str}}
-        {{#pix}}a/search, core, search{{/pix}}
+        {{#ftpix}}a/search, core, search{{/ftpix}}
         <input name="{{#str}}search{{/str}}" type="text" class="iconsearch inline" style="width: 20em;">
 
         {{#show_photo_button}}
@@ -107,7 +107,7 @@
 {{#documentationurl}}
     <div>
         <a href="{{{documentationurl}}}" target="_blank">
-            {{#pix}}help, core, documentation, format_tiles{{/pix}}{{#str}}documentation, format_tiles{{/str}}
+            {{#ftpix}}help, core, documentation, format_tiles{{/ftpix}}{{#str}}documentation, format_tiles{{/str}}
         </a>
     </div>
 {{/documentationurl}}
