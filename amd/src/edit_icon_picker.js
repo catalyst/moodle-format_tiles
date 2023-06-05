@@ -305,7 +305,7 @@ define(["jquery", "core/templates", "core/ajax", "core/str", "core/notification"
                     str.get_strings([
                         {key: "photolibrary", component: "format_tiles"},
                         {key: "documentation", component: "format_tiles"},
-                        {key: "search"}
+                        {key: "search", component: "core"}
                     ]).done(function (strings) {
                         Templates.render("format_tiles/icon_picker_modal_body", {
                             /* eslint-disable-next-line camelcase */
