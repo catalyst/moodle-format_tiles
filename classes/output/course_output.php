@@ -201,8 +201,9 @@ class course_output implements \renderable, \templatable {
 
         // Only show section zero if we need it.
         $onmultisectionpage = $this->sectionnum === null;
-        $processsectionzero = $onmultisectionpage ||
-            (get_config('format_tiles', 'showseczerocoursewide') && !$this->isediting);
+        $processsectionzero = $onmultisectionpage
+            || (get_config('format_tiles', 'showseczerocoursewide') && !$this->isediting)
+            || $this->sectionnum === '0';
         if ($processsectionzero) {
             // Only show section 0 on multi section page, or single sec page with admin setting to show course wide.
             $data = $this->append_section_zero_data($data, $output);
