@@ -1096,7 +1096,7 @@ function format_tiles_output_fragment_get_cm_content(array $args): string {
         if ($mod->modname == 'page') {
             // Record from the page table.
             $record = $DB->get_record($mod->modname, ['id' => $mod->instance]);
-            list($course, $cm) = get_course_and_cm_from_cmid($mod->id);
+            [$course, $cm] = get_course_and_cm_from_cmid($mod->id);
             require_once("$CFG->dirroot/mod/page/lib.php");
             page_view($record, $course, $cm, $modcontext);
             return \format_tiles\local\util::format_cm_content_text($mod->modname, $record, $modcontext);

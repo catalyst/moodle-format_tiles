@@ -416,7 +416,7 @@ class tile_photo {
         }
 
         $contextids = [\context_course::instance($courseid)->id];
-        list($contextsql, $params) = $DB->get_in_or_equal($contextids, SQL_PARAMS_NAMED);
+        [$contextsql, $params] = $DB->get_in_or_equal($contextids, SQL_PARAMS_NAMED);
 
         $params['userid'] = $USER->id;
         $params['cutofftime'] = strtotime("-36 months");

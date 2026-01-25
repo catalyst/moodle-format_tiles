@@ -82,7 +82,7 @@ class modal_helper {
         $excludeddisplaytypes = [
             RESOURCELIB_DISPLAY_POPUP, RESOURCELIB_DISPLAY_NEW, RESOURCELIB_DISPLAY_DOWNLOAD,
         ];
-        list($notinsql, $params) =
+        [$notinsql, $params] =
             $DB->get_in_or_equal($excludeddisplaytypes, SQL_PARAMS_NAMED, 'param', false);
         $params['courseid'] = $courseid;
         $params['contextmodule'] = CONTEXT_MODULE;
@@ -101,7 +101,7 @@ class modal_helper {
                     WHERE cm.course = :courseid AND cm.deletioninprogress = 0 AND r.display $notinsql";
 
         // Get the details of the highest sortorder file on each CM of the relevant mime type, to check against main files.
-        list($insql, $insqlparams) = $DB->get_in_or_equal($mimetypes, SQL_PARAMS_NAMED);
+        [$insql, $insqlparams] = $DB->get_in_or_equal($mimetypes, SQL_PARAMS_NAMED);
         $params = array_merge($params, $insqlparams);
 
         // Get the details of the highest sortorder ("main") file on each CM, as that's the only one that could be relevant.

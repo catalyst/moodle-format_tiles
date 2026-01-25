@@ -29,7 +29,7 @@ require_once('../../../config.php');
 $cmid = required_param('cmid', PARAM_INT);
 $forcedownload = optional_param('forcedownload', false, PARAM_BOOL);
 
-list($course, $cm) = get_course_and_cm_from_cmid($cmid);
+[$course, $cm] = get_course_and_cm_from_cmid($cmid);
 // This will also check that cm is user visible.
 require_course_login($course, true, $cm);
 

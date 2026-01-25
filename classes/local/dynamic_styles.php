@@ -135,7 +135,7 @@ class dynamic_styles {
      * @return string rgb colour
      */
     public static function rgbcolour(string $hex): string {
-        list($r, $g, $b) = sscanf($hex, "#%02x%02x%02x");
+        [$r, $g, $b] = sscanf($hex, "#%02x%02x%02x");
         return "$r,$g,$b";
     }
 

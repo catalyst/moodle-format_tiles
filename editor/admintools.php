@@ -112,7 +112,7 @@ function reset_colours($settingsurl, $pageurl) {
         );
     }
     // Prepare a "NOT IN" statement for the permitted colours, to find records which have other colours.
-    list($permittedcolourssql, $params) = $DB->get_in_or_equal($permittedcolours, SQL_PARAMS_NAMED, 'param', false);
+    [$permittedcolourssql, $params] = $DB->get_in_or_equal($permittedcolours, SQL_PARAMS_NAMED, 'param', false);
 
     if (!optional_param('sure', 0, PARAM_INT)) {
         // User has not said they are sure yet so count how many courses are affected and offer user chance to confirm.
