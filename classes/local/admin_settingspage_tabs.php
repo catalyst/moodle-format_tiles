@@ -80,7 +80,7 @@ class admin_settingspage_tabs extends \admin_settingpage {
 
         foreach ($this->get_tabs() as $index => $tab) {
             $data = [
-                'name' => str_replace('format_tiles/' , '', $tab->name),
+                'name' => str_replace('format_tiles/', '', $tab->name),
                 'displayname' => $tab->visiblename,
                 'html' => $tab->output_html(),
             ];

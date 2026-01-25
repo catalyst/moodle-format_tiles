@@ -55,7 +55,7 @@ class image_processor {
         int $itemid,
         int $width,
         int $height
-) {
+    ) {
         require_capability('moodle/course:update', $context);
         $newfilename = str_replace(' ', '_', $newfilename);
         $storedfilerecord = self::stored_file_record($context->id, $itemid, $newfilename);

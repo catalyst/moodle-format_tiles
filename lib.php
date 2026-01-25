@@ -781,7 +781,7 @@ class format_tiles extends core_courseformat\base {
         $editable = null,
         $edithint = null,
         $editlabel = null
-) {
+    ) {
         if (empty($edithint)) {
             $edithint = new lang_string('editsectionname', 'format_tiles');
         }

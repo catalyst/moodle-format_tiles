@@ -88,9 +88,10 @@ class external extends external_api {
 
         // Section id of zero means we are changing the course icon.  Otherwise check sec id is valid.
         if (
-            $data['sectionid'] && $DB->get_record(
-            'course_sections',
-            ['course' => $data['courseid'], 'id' => $data['sectionid']]
+            $data['sectionid']
+            && $DB->get_record(
+                'course_sections',
+                ['course' => $data['courseid'], 'id' => $data['sectionid']]
             ) === false
         ) {
             throw new invalid_parameter_exception('Invalid course and section id combination');

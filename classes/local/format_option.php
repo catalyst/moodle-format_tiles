@@ -456,7 +456,7 @@ class format_option {
         int $courseid,
         string $optiontype,
         int $sectionid = 0
-): \moodle_recordset {
+    ): \moodle_recordset {
         global $DB;
         if (!in_array($optiontype, [self::OPTION_SECTION_PHOTO, self::OPTION_SECTION_ICON])) {
             // We cannot migrate cm icons or photos as they did not exist in legacy.

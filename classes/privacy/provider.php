@@ -90,7 +90,6 @@ class provider implements \core_privacy\local\metadata\provider,
                 );
             }
         }
-
     }
 
     /**
