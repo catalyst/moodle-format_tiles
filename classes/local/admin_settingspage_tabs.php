@@ -42,7 +42,7 @@ class admin_settingspage_tabs extends \admin_settingpage {
      */
     public function add_tab(\admin_settingpage $tab) {
         foreach ($tab->settings as $setting) {
-            $this->settings->{$setting->plugin.$setting->name} = $setting;
+            $this->settings->{$setting->plugin . $setting->name} = $setting;
         }
         $this->tabs[] = $tab;
         return true;

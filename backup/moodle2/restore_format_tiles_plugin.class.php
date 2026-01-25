@@ -417,7 +417,7 @@ class restore_format_tiles_plugin extends restore_format_plugin {
                 'invalidrecordid',
                 'format_tiles',
                 '',
-                'Could not insert photo. Database table format_tiles_tile_options is not ready.'.
+                'Could not insert photo. Database table format_tiles_tile_options is not ready.' .
                 '  An administrator must visit the notifications section.'
             );
         }

@@ -227,7 +227,7 @@ class behat_format_tiles extends behat_base {
         if (!isset($cms[$activitytitle])) {
             throw new \Behat\Mink\Exception\ExpectationException(
                 "Activity type '$modtype' title '$activitytitle' not found in $coursefullname."
-                        . "Available cms ". json_encode(array_keys($cms)),
+                        . "Available cms " . json_encode(array_keys($cms)),
                 $this->getSession()
             );
         }
@@ -415,7 +415,7 @@ class behat_format_tiles extends behat_base {
      * @throws \Behat\Mink\Exception\ExpectationException
      */
     public function progress_indicator_tile_shows_outof($tilenumber, $numcomplete, $outof) {
-        $xpath = "//div[@id='tileprogress-" . $tilenumber. "']";
+        $xpath = "//div[@id='tileprogress-" . $tilenumber . "']";
         $node = $this->get_selected_node("xpath_element", $xpath);
         if ($node->getAttribute('data-numcomplete') !== $numcomplete) {
             throw new \Behat\Mink\Exception\ExpectationException(

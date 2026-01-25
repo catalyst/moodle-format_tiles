@@ -160,7 +160,7 @@ class external extends external_api {
         );
         if (!$sourcefile) {
             throw new invalid_parameter_exception(
-                'Source file not found: ' . $data['sourcecontextid'] .'|' . $data['sourceitemid']
+                'Source file not found: ' . $data['sourcecontextid'] . '|' . $data['sourceitemid']
             );
         }
         $newfile = $tilephoto->set_file_from_stored_file($sourcefile, $data['image']);
@@ -221,7 +221,7 @@ class external extends external_api {
             throw new invalid_parameter_exception("Invalid context level");
         }
 
-        if ($data['sourcecontextid'] &&!$issettingsampleimage) {
+        if ($data['sourcecontextid'] && !$issettingsampleimage) {
             // Arguably we don't need to do this as the only files the user will see are those they posted themselves.
             // This is thanks to the database query which generates the files list. So they could see them once.
             require_capability('moodle/course:viewhiddenactivities', $sourcecontext);
@@ -237,7 +237,7 @@ class external extends external_api {
         if (!$sourcefile) {
             throw new invalid_parameter_exception(
                 'Source file not found: sourcecontextid: ' . $data['sourcecontextid']
-                .' | sourceitemid' . $data['sourceitemid']
+                . ' | sourceitemid' . $data['sourceitemid']
             );
         }
         $tilephoto = new tile_photo($context, $data['sectionid']);
@@ -737,7 +737,7 @@ class external extends external_api {
                             ),
                             'percentoffset' => new external_value(
                                 PARAM_INT,
-                                'Percent offset for radial indicator'. VALUE_OPTIONAL,
+                                'Percent offset for radial indicator' . VALUE_OPTIONAL,
                                 0
                             ),
                             'iscomplete' => new external_value(PARAM_BOOL, 'Is the section complete', VALUE_OPTIONAL, false),

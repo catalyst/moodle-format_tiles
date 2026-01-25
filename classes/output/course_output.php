@@ -30,7 +30,7 @@ use format_tiles\local\util;
 
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
-require_once($CFG->dirroot .'/course/format/lib.php');
+require_once($CFG->dirroot . '/course/format/lib.php');
 
 /**
  * Tiles course format, main course output class to prepare data for mustache templates
@@ -1010,7 +1010,7 @@ class course_output implements \renderable, \templatable {
         if ($mod->modname == 'folder') {
             $moduleobject['url'] = new \moodle_url('/mod/folder/view.php', ['id' => $mod->id]);
         }
-        if ($mod->modname == 'url'&& \format_tiles\local\video_cm::is_video_cm($this->course->id, $mod->id)) {
+        if ($mod->modname == 'url' && \format_tiles\local\video_cm::is_video_cm($this->course->id, $mod->id)) {
             $externalurl = $DB->get_field('url', 'externalurl', ['id' => $mod->instance]);
             $modifiedvideourl = \format_tiles\local\video_cm::check_modify_embedded_url($externalurl);
             if ($modifiedvideourl) {

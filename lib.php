@@ -988,7 +988,7 @@ function format_tiles_pluginfile($course, $cm, $context, $filearea, $args, $forc
     $fileapiparams = \format_tiles\local\tile_photo::file_api_params();
     $fs = get_file_storage();
     $sectionid = (int)$args[0];
-    $filepath = '/' . $args[1] .'/';
+    $filepath = '/' . $args[1] . '/';
     $filename = $args[2];
     $file = $fs->get_file($context->id, $fileapiparams['component'], $filearea, $sectionid, $filepath, $filename);
     if (!$file) {

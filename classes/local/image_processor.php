@@ -276,7 +276,7 @@ class image_processor {
             default:
                 break;
         }
-        debugging('Mime type \''.$mime.'\' is not supported as an image format. PNG, JPEG and GIF are supported. '
+        debugging('Mime type \'' . $mime . '\' is not supported as an image format. PNG, JPEG and GIF are supported. '
             . 'The GD PHP extension should be installed.');
         return false;
     }
