@@ -105,7 +105,6 @@ class restore_format_tiles_plugin extends restore_format_plugin {
      * Dummy process method
      */
     public function process_dummy_course() {
-
     }
 
     /**

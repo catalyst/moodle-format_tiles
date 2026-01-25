@@ -39,7 +39,7 @@ if (optional_param('sesskey', '', PARAM_TEXT)) {
     redirect(
         new moodle_url('/course/view.php', ['id' => $courseid]),
         $result ? get_string('tilesreset', 'format_tiles')
-            : get_string('resetincomplete', 'format_tiles') ,
+            : get_string('resetincomplete', 'format_tiles'),
         0,
         $result
             ? \core\output\notification::NOTIFY_SUCCESS

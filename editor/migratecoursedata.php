@@ -155,6 +155,6 @@ echo $OUTPUT->header();
 if ($cronresult->get_status() !== $cronresult::OK) {
     \core\notification::warning($cronresult->get_summary());
 }
-echo html_writer::div(get_string('unmigratedcoursesintro', 'format_tiles',  count($legacycourses)), 'mb-2');
+echo html_writer::div(get_string('unmigratedcoursesintro', 'format_tiles', count($legacycourses)), 'mb-2');
 echo html_writer::table($table);
 echo $OUTPUT->footer();

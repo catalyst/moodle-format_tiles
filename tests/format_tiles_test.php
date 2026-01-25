@@ -462,7 +462,6 @@ final class format_tiles_test extends \advanced_testcase {
         $this->assertFalse(
             \format_tiles\local\modal_helper::cm_has_modal($course->id, $instance->cmid)
         );
-
     }
 
     /**

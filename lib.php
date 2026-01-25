@@ -240,7 +240,6 @@ class format_tiles extends core_courseformat\base {
                 $navigation->add_node($settingsnode);
             }
         }
-
     }
 
     /**
