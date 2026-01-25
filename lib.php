@@ -368,7 +368,7 @@ class format_tiles extends core_courseformat\base {
 
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
             $tilespalette = \format_tiles\local\util::get_tiles_palette();
-            $tileicons = (new \format_tiles\local\icon_set)->available_tile_icons($this->get_courseid());
+            $tileicons = (new \format_tiles\local\icon_set())->available_tile_icons($this->get_courseid());
 
             $courseformatoptionsedit = [
                 'hiddensections' => [

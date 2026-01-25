@@ -48,7 +48,7 @@ function helper_restore_test_course(string $filename, string $newcoursename): in
     $adminuser = get_admin();
 
     $timenow = time();
-    $filerecord = new \stdClass;
+    $filerecord = new \stdClass();
     $filerecord->component = 'format_tiles';
     $filerecord->filearea = 'coursebackups';
     $filerecord->filepath = '/';

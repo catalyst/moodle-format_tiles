@@ -272,7 +272,7 @@ class external extends external_api {
         // If the tile icon is a number icon, it's not a real image so we don't need to validate.
         $tilenumber = \format_tiles\local\util::get_tile_number_from_icon_name($data['image']);
         if (!$tilenumber) {
-            $availableicons = (new \format_tiles\local\icon_set)->available_tile_icons($data['courseid']);
+            $availableicons = (new \format_tiles\local\icon_set())->available_tile_icons($data['courseid']);
             if (!isset($availableicons[$data['image']])) {
                 throw new invalid_parameter_exception('Icon is invalid');
             }
@@ -482,7 +482,7 @@ class external extends external_api {
         $data = [
             'status' => true,
             'warnings' => [],
-            'icons' => json_encode((new \format_tiles\local\icon_set)->available_tile_icons($params['courseid'])),
+            'icons' => json_encode((new \format_tiles\local\icon_set())->available_tile_icons($params['courseid'])),
             'photos' => '',
         ];
         if (get_config('format_tiles', 'allowphototiles')) {

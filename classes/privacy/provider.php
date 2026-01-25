@@ -56,7 +56,8 @@ use core_privacy\local\metadata\collection;
  * @copyright  2018 David Watson {@link http://evolutioncode.uk}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\provider,
+class provider implements
+    \core_privacy\local\metadata\provider,
     \core_privacy\local\request\user_preference_provider {
     /**
      * Indicate that this plugin only uses one user_preference to store personal data

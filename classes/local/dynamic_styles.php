@@ -62,7 +62,7 @@ class dynamic_styles {
             $courseid = $iscourseviewpage ? $idparam : $DB->get_field('course_sections', 'course', ['id' => $idparam]);
             if ($courseid) {
                 $data = self::data_for_template($courseid);
-                $m = new \Mustache_Engine;
+                $m = new \Mustache_Engine();
                 return $m->render(
                     file_get_contents("$CFG->dirroot/course/format/tiles/templates/dynamic_styles.mustache"),
                     $data
