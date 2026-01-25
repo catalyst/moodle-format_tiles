@@ -395,7 +395,6 @@ class format_option {
         }
         foreach ($legacyoptions as $legacyoption) {
             if ($legacyoption->value) {
-
                 // If this is a photo to migrate and an icon already set, remove the icon as photo takes priority.
                 if ($optiontype == self::OPTION_SECTION_PHOTO) {
                     $icon = self::get($courseid, self::OPTION_SECTION_ICON, $legacyoption->sectionid);

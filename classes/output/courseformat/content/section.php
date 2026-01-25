@@ -62,7 +62,6 @@ class section extends section_base {
                     ['sectionid' => $this->section->id]
                 );
             }
-
         }
         if (!$data->hasphoto) {
             $data->tileicon = \format_tiles\local\format_option::get(

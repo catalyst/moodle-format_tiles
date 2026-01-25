@@ -41,7 +41,6 @@ function xmldb_format_tiles_upgrade($oldversion) {
     require_once($CFG->dirroot . '/course/format/tiles/db/upgradelib.php');
 
     if ($oldversion < 2017102700) {
-
         // Remove 'numsections' option and hide or delete orphaned sections.
         format_tiles_upgrade_remove_numsections();
 
@@ -178,7 +177,6 @@ function xmldb_format_tiles_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024020200) {
-
         // New way of storing tile images, using a new format_tiles_tile_options table instead of core course_format_options.
 
         // Define table format_tiles_tile_options to be created.

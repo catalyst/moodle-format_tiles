@@ -181,7 +181,7 @@ class image_processor {
         );
 
         ob_start();
-        switch($imageparams['function']) {
+        switch ($imageparams['function']) {
             case 'imagejpeg':
                 if (!imagejpeg($finalimage, null, $imageparams['quality'])) {
                     ob_end_clean();

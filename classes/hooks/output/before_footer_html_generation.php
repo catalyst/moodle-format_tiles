@@ -87,7 +87,6 @@ class before_footer_html_generation {
                 $renderer = $PAGE->get_renderer('format_tiles');
                 $hook->add_html($renderer->render_from_template('format_tiles/js-config', ['tiles_js_config' => $jsconfig]));
             }
-
         } catch (\Exception $e) {
             debugging("Could not prepare format_tiles footer data: " . $e->getMessage(), DEBUG_DEVELOPER);
         }

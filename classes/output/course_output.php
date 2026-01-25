@@ -190,7 +190,6 @@ class course_output implements \renderable, \templatable {
             try {
                 // Issue #153 avoid multiple glossary auto link JS onclick events.
                 $PAGE->requires->should_create_one_time_item_now('filter_glossary_autolinker');
-
             } catch (\Exception) {
                 debugging('Could not set glossary autolink created', DEBUG_DEVELOPER);
             }

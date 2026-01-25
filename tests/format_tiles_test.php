@@ -162,7 +162,6 @@ final class format_tiles_test extends \advanced_testcase {
                 // Id is course ID and will not be in new db values.
                 $this->assertEquals($pushedvalue, $newvalues[$name], 'No match on name ' . $name);
             }
-
         }
     }
 
