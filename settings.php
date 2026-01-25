@@ -104,7 +104,7 @@ if ($ADMIN->fulltree) {
 
     // Modal activities / resources.
     $page = new admin_settingpage('format_tiles/tab-modalwindows', get_string('modalwindows', 'format_tiles'));
-    $cachecallback = function() {
+    $cachecallback = function () {
         \cache_helper::purge_by_event('format_tiles/modaladminsettingchanged');
     };
 

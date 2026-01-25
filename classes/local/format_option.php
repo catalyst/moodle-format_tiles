@@ -213,7 +213,7 @@ class format_option {
         $cache = \cache::make('format_tiles', 'formatoptions');
         $keyprefix = $courseid . "_" . $optiontype;
         $cachekeys = array_map(
-            function($cacheid) use ($keyprefix) {
+            function ($cacheid) use ($keyprefix) {
                 return $keyprefix . "_" . $cacheid;
             },
             $cachedvalueids
@@ -225,7 +225,7 @@ class format_option {
         // Cache keys have course ID and option type encoded as first two ints (e.g. 1_2_3) - we only want the last int.
         $oldkeys = array_keys($cachedvalues);
         $newkeys = array_map(
-            function($oldkey) {
+            function ($oldkey) {
                 return explode("_", $oldkey)[2];
             },
             $oldkeys
@@ -354,7 +354,7 @@ class format_option {
         $constants = $oclass->getConstants();
         $filtered = array_filter(
             $constants,
-            function($constant) {
+            function ($constant) {
                 return strpos($constant, 'OPTION_') === 0;
             },
             ARRAY_FILTER_USE_KEY
@@ -454,7 +454,10 @@ class format_option {
      * @throws \invalid_parameter_exception
      */
     public static function get_legacy_format_options_recordset(
-            int $courseid, string $optiontype, int $sectionid = 0): \moodle_recordset {
+        int $courseid,
+        string $optiontype,
+        int $sectionid = 0
+): \moodle_recordset {
         global $DB;
         if (!in_array($optiontype, [self::OPTION_SECTION_PHOTO, self::OPTION_SECTION_ICON])) {
             // We cannot migrate cm icons or photos as they did not exist in legacy.

@@ -772,8 +772,13 @@ class format_tiles extends core_courseformat\base {
      * @return \core\output\inplace_editable
      * @throws coding_exception
      */
-    public function inplace_editable_render_section_name($section, $linkifneeded = false,
-                                                         $editable = null, $edithint = null, $editlabel = null) {
+    public function inplace_editable_render_section_name(
+        $section,
+        $linkifneeded = false,
+        $editable = null,
+        $edithint = null,
+        $editlabel = null
+) {
         if (empty($edithint)) {
             $edithint = new lang_string('editsectionname', 'format_tiles');
         }

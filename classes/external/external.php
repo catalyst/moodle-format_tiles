@@ -65,7 +65,12 @@ class external extends external_api {
      * @throws stored_file_creation_exception
      */
     public static function set_image(
-        $courseid, $sectionid, $filename, $imagetype = 'tileicon', $sourcecontextid = 0, $sourceitemid = 0
+        $courseid,
+        $sectionid,
+        $filename,
+        $imagetype = 'tileicon',
+        $sourcecontextid = 0,
+        $sourceitemid = 0
     ) {
         global $DB, $OUTPUT;
 
