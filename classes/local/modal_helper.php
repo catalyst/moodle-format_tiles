@@ -37,8 +37,10 @@ class modal_helper {
      */
     public static function allowed_modal_modules(): array {
         $devicetype = \core_useragent::get_device_type();
-        if ($devicetype != \core_useragent::DEVICETYPE_TABLET && $devicetype != \core_useragent::DEVICETYPE_MOBILE
-            && !(\core_useragent::is_ie())) {
+        if (
+            $devicetype != \core_useragent::DEVICETYPE_TABLET && $devicetype != \core_useragent::DEVICETYPE_MOBILE
+            && !(\core_useragent::is_ie())
+        ) {
             // JS navigation and modals in Internet Explorer are not supported by this plugin so we disable modals here.
             $resources = get_config('format_tiles', 'modalresources');
             $modules = get_config('format_tiles', 'modalmodules');

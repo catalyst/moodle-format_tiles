@@ -59,8 +59,10 @@ class content extends content_base {
 
             $course = $this->format->get_course();
 
-            if (get_config('format_tiles', 'allowsubtilesview')
-                && isset($courseformatoptions['courseusesubtiles']) && $courseformatoptions['courseusesubtiles']) {
+            if (
+                get_config('format_tiles', 'allowsubtilesview')
+                && isset($courseformatoptions['courseusesubtiles']) && $courseformatoptions['courseusesubtiles']
+            ) {
                 // For now (Beta version) we warn editor about sub tiles only appearing in non-edit view.
                 $messgage = get_string('editoradvicesubtiles', 'format_tiles');
                 if (has_capability('moodle/site:config', \context_system::instance())) {

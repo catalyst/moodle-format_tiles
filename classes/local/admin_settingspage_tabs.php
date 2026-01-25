@@ -84,7 +84,7 @@ class admin_settingspage_tabs extends \admin_settingpage {
                 'displayname' => $tab->visiblename,
                 'html' => $tab->output_html(),
             ];
-            if ($index == 0 ) {
+            if ($index == 0) {
                 $data['active'] = 1;
             }
             if ($tab->name === "format_tiles/tab-colours") {

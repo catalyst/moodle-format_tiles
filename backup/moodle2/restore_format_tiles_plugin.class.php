@@ -67,8 +67,10 @@ class restore_format_tiles_plugin extends restore_format_plugin {
 
             // In case of merging backup into existing course find the current number of sections.
             $target = $this->step->get_task()->get_target();
-            if (($target == backup::TARGET_CURRENT_ADDING || $target == backup::TARGET_EXISTING_ADDING) &&
-                $this->need_restore_numsections()) {
+            if (
+                ($target == backup::TARGET_CURRENT_ADDING || $target == backup::TARGET_EXISTING_ADDING) &&
+                $this->need_restore_numsections()
+            ) {
                 $maxsection = $DB->get_field_sql(
                     'SELECT max(section) FROM {course_sections} WHERE course = ?',
                     [$this->step->get_task()->get_courseid()]

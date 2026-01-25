@@ -171,9 +171,11 @@ class format_tiles extends core_courseformat\base {
         if (!$data['enablecompletion'] && $data['courseshowtileprogress']) {
             $reterrors['courseshowtileprogress'] = get_string('courseshowtileprogress_error', 'format_tiles');
         }
-        if (($data['displayfilterbar'] == \format_tiles\local\format_option::FILTER_OUTCOMES_ONLY
+        if (
+            ($data['displayfilterbar'] == \format_tiles\local\format_option::FILTER_OUTCOMES_ONLY
                 || $data['displayfilterbar'] == \format_tiles\local\format_option::FILTER_OUTCOMES_AND_NUMBERS)
-            && empty(\format_tiles\local\filters::get_course_outcomes($courseid))) {
+            && empty(\format_tiles\local\filters::get_course_outcomes($courseid))
+        ) {
             $outcomeslink = html_writer::link(
                 new moodle_url('/grade/edit/outcome/course.php', ['id' => $courseid]),
                 new lang_string('outcomes', 'format_tiles')
@@ -197,8 +199,10 @@ class format_tiles extends core_courseformat\base {
         // If section is specified in course/view.php, make sure it is expanded in navigation.
         if ($navigation->includesectionnum === false) {
             $selectedsection = optional_param('section', null, PARAM_INT);
-            if ($selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
-                $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
+            if (
+                $selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
+                $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)
+            ) {
                 $navigation->includesectionnum = $selectedsection;
             }
         }

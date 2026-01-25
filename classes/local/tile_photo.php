@@ -464,8 +464,10 @@ class tile_photo {
         $countadded = 0;
         foreach ($records as $record) {
             $setkey = $record->filename . '|' . $record->mimetype;
-            if (!in_array($record->contenthash, $contenthashes) &&
-            (!isset($set[$setkey]) || abs($set[$setkey]->filesize - $record->filesize) > $filesizetolerance)) {
+            if (
+                !in_array($record->contenthash, $contenthashes) &&
+                (!isset($set[$setkey]) || abs($set[$setkey]->filesize - $record->filesize) > $filesizetolerance)
+            ) {
                 // Seems like we don't already have this file in the set - don't have to be precise here given purpose.
                 unset($record->mimetype);  // Don't need to keep this.
                 $set[$setkey] = $record;

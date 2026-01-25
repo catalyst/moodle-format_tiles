@@ -761,7 +761,8 @@ class course_output implements \renderable, \templatable {
                     if (!$issubsection && $this->completioninfo->is_enabled($thismod) != COMPLETION_TRACKING_NONE) {
                         $outof++;
                         $completiondata = $this->completioninfo->get_data($thismod, true);
-                        if ($completiondata->completionstate == COMPLETION_COMPLETE ||
+                        if (
+                            $completiondata->completionstate == COMPLETION_COMPLETE ||
                             $completiondata->completionstate == COMPLETION_COMPLETE_PASS
                         ) {
                             $completed++;

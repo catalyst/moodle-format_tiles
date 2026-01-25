@@ -138,8 +138,10 @@ function reset_colours($settingsurl, $pageurl) {
         $defaultvalue = get_config('format_tiles', 'tilecolour1');
 
         // Validate our default value before we apply it to multiple courses.
-        if (!$defaultvalue || strlen($defaultvalue) > 7 || strpos($defaultvalue, "#") !== 0
-            || !ctype_xdigit(substr($defaultvalue, 1)) || hexdec($defaultvalue) === 0) {
+        if (
+            !$defaultvalue || strlen($defaultvalue) > 7 || strpos($defaultvalue, "#") !== 0
+            || !ctype_xdigit(substr($defaultvalue, 1)) || hexdec($defaultvalue) === 0
+        ) {
             redirect(
                 $settingsurl,
                 get_string('novaliddefaultcolour', 'format_tiles'),
