@@ -46,7 +46,6 @@ use format_tiles\local\tile_photo;
  * @since      Moodle 4.0
  */
 class external extends external_api {
-
     /**
      * Teacher is changing the icon/photo for a course section or whole course using AJAX
      * @param Integer $courseid the id of this course

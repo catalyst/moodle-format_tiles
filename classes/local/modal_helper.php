@@ -30,7 +30,6 @@ namespace format_tiles\local;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class modal_helper {
-
     /**
      * Which course modules is the site administrator allowing to be displayed in a modal?
      * @return array the permitted modules including resource types e.g. page, pdf, HTML

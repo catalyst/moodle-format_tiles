@@ -30,7 +30,6 @@ namespace format_tiles\local;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_option {
-
     /**
      * When we store the photo in db format_tiles_tile_options table, specify if it's a section or cm photo.
      */

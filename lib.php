@@ -36,7 +36,6 @@ require_once($CFG->dirroot . '/course/format/lib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_tiles extends core_courseformat\base {
-
     /**
      * Creates a new instance of class
      *

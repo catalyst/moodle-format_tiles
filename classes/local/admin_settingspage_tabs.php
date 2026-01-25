@@ -31,7 +31,6 @@ namespace format_tiles\local;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class admin_settingspage_tabs extends \admin_settingpage {
-
     /** @var array $tabs The tabs of this page */
     protected $tabs = [];
 

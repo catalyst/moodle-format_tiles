@@ -32,7 +32,6 @@ use format_tiles\local\format_option;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class format_tiles_course_format_options_test extends \advanced_testcase {
-
     /**
      * This method is called before the first test of this test class is run.
      */

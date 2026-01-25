@@ -38,7 +38,6 @@ require_once($CFG->dirroot .'/course/format/lib.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_output implements \renderable, \templatable {
-
     /**
      * Course object for this class
      * @var \stdClass

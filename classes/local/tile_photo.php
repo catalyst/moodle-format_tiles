@@ -30,7 +30,6 @@ namespace format_tiles\local;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class tile_photo {
-
     /**
      * Which type of tile option we have, e.g. format_option::OPTION_SECTION_PHOTO.
      * @var int

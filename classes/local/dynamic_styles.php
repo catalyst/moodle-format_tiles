@@ -31,7 +31,6 @@ namespace format_tiles\local;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class dynamic_styles {
-
     /**
      * Default hex tile colour if none other found.
      */

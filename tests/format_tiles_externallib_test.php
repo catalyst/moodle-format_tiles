@@ -40,7 +40,6 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class format_tiles_externallib_test extends \externallib_advanced_testcase {
-
     /**
      * The format options to use when setting up a course in tiles format.
      * @var array

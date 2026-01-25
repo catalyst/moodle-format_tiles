@@ -24,7 +24,6 @@ namespace format_tiles\hooks\output;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class before_footer_html_generation {
-
     /**
      * Callback to add pre-footer elements.
      *

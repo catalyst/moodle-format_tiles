@@ -37,7 +37,6 @@ use format_tiles\local\format_option;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_format_tiles_plugin extends restore_format_plugin {
-
     /** @var int */
     protected $originalnumsections = 0;
 

@@ -25,7 +25,6 @@ use core_courseformat\output\section_renderer;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends section_renderer {
-
     /**
      * Override this so that we can use our own local templates.
      * Used at present to ensure tiles specific editor controls are shown.

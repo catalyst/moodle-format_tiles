@@ -36,7 +36,6 @@ require_once($CFG->libdir . '/gdlib.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class image_processor {
-
     /**
      * When the user uploads a new file, it is saved as tempfile which may be large.
      * This takes the temp file and adds an adjusted version to the tile_photo object.

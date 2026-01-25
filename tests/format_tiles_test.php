@@ -37,7 +37,6 @@ require_once($CFG->dirroot . '/course/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class format_tiles_test extends \advanced_testcase {
-
     /**
      * The format options to use when setting up a course in tiles format.
      * @var array

@@ -30,8 +30,6 @@ namespace format_tiles\local;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class util {
-
-
     /**
      * Get information about a particular course module including whether modal is allowed.
      * Called by web service when deciding how to handle an activity click.
