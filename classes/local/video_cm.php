@@ -154,4 +154,3 @@ class video_cm {
         $cache->delete($courseid);
     }
 }
-

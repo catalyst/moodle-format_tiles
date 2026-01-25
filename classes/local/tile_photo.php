@@ -527,4 +527,3 @@ class tile_photo {
         return $newfilename ?? '';
     }
 }
-

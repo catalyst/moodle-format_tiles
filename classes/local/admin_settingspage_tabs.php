@@ -98,4 +98,3 @@ class admin_settingspage_tabs extends \admin_settingpage {
         return $OUTPUT->render_from_template('format_tiles/admin_setting_tabs', $context);
     }
 }
-
