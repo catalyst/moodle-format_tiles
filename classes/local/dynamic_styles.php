@@ -111,10 +111,12 @@ class dynamic_styles {
             // If the site admin sets background opacity to solid then it doesn't matter if the lines overlap.
             $outputdata['phototilefontsize'] = 20;
             $outputdata['phototiletextpadding'] = number_format(
-                (float)get_config('format_tiles', 'phototitletitlepadding') / 10, 1
+                (float)get_config('format_tiles', 'phototitletitlepadding') / 10,
+                1
             );
             $outputdata['phototiletextlineheight'] = number_format(
-                (float)get_config('format_tiles', 'phototitletitlelineheight') / 10, 1
+                (float)get_config('format_tiles', 'phototitletitlelineheight') / 10,
+                1
             );
         }
 

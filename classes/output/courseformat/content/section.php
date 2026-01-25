@@ -66,7 +66,9 @@ class section extends section_base {
         }
         if (!$data->hasphoto) {
             $data->tileicon = \format_tiles\local\format_option::get(
-                $this->section->course, \format_tiles\local\format_option::OPTION_SECTION_ICON, $this->section->id
+                $this->section->course,
+                \format_tiles\local\format_option::OPTION_SECTION_ICON,
+                $this->section->id
             );
             if (!$data->tileicon) {
                 $formatoptions = $this->format->get_format_options();

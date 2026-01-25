@@ -71,7 +71,8 @@ class restore_format_tiles_plugin extends restore_format_plugin {
                 $this->need_restore_numsections()) {
                 $maxsection = $DB->get_field_sql(
                     'SELECT max(section) FROM {course_sections} WHERE course = ?',
-                    [$this->step->get_task()->get_courseid()]);
+                    [$this->step->get_task()->get_courseid()]
+                );
                 $this->originalnumsections = (int)$maxsection;
             }
 
@@ -169,7 +170,9 @@ class restore_format_tiles_plugin extends restore_format_plugin {
                 $oldsectionnum = $data['tags']['number'];
 
                 $newcourseid = $this->step->get_task()->get_courseid();
-                $newsectionid = $DB->get_field('course_sections', 'id',
+                $newsectionid = $DB->get_field(
+                    'course_sections',
+                    'id',
                     ['course' => $newcourseid, 'section' => $oldsectionnum]
                 );
                 if ($newsectionid) {
@@ -177,7 +180,10 @@ class restore_format_tiles_plugin extends restore_format_plugin {
                     // Higher than that version, it's mapped in $this->set_mapping('itemid ... in process_tiles_section().
                     // The method itself will check if needed and do nothing if not.
                     self::update_file_records_sections(
-                        $newcourseid, context_course::instance($newcourseid)->id, $oldsectionid, $newsectionid
+                        $newcourseid,
+                        context_course::instance($newcourseid)->id,
+                        $oldsectionid,
+                        $newsectionid
                     );
                     format_option::migrate_legacy_format_options($newcourseid, $newsectionid);
 
@@ -244,7 +250,8 @@ class restore_format_tiles_plugin extends restore_format_plugin {
             );
 
             $isoutcomesfilter = $currentfilterbarsetting &&
-                in_array($currentfilterbarsetting->value,
+                in_array(
+                    $currentfilterbarsetting->value,
                     [format_option::FILTER_OUTCOMES_ONLY, format_option::FILTER_OUTCOMES_AND_NUMBERS]
                 );
             if ($isoutcomesfilter) {
@@ -272,10 +279,18 @@ class restore_format_tiles_plugin extends restore_format_plugin {
             // The name of course format option "defaulttileicon" for a course used to be "defaulttiletopleftdisplay".
             // Before this was changed for clarity in summer 2018 release, so change it if present in the backup if present.
             // Same for the topic level option "tiletopleftthistile" which becomes "tileicon".
-            $DB->set_field('course_format_options', 'name', 'defaulttileicon',
-                ['format' => 'tiles', 'name' => 'defaulttiletopleftdisplay', 'courseid' => $newcourseid]);
-            $DB->set_field('course_format_options', 'name', 'tileicon',
-                ['format' => 'tiles', 'name' => 'tiletopleftthistile', 'courseid' => $newcourseid]);
+            $DB->set_field(
+                'course_format_options',
+                'name',
+                'defaulttileicon',
+                ['format' => 'tiles', 'name' => 'defaulttiletopleftdisplay', 'courseid' => $newcourseid]
+            );
+            $DB->set_field(
+                'course_format_options',
+                'name',
+                'tileicon',
+                ['format' => 'tiles', 'name' => 'tiletopleftthistile', 'courseid' => $newcourseid]
+            );
 
             // Old versions of this plugin used to refer to "course default" for each icon if the user had not selected one.
             // This no longer applies so delete them if present.
@@ -302,8 +317,10 @@ class restore_format_tiles_plugin extends restore_format_plugin {
                 if ($this->step->get_task()->get_setting_value($key . '_included')) {
                     $sectionnum = (int)$section->title;
                     if ($sectionnum > $numsections && $sectionnum > $this->originalnumsections) {
-                        $DB->execute("UPDATE {course_sections} SET visible = 0 WHERE course = ? AND section = ?",
-                            [$newcourseid, $sectionnum]);
+                        $DB->execute(
+                            "UPDATE {course_sections} SET visible = 0 WHERE course = ? AND section = ?",
+                            [$newcourseid, $sectionnum]
+                        );
                     }
                 }
             }
@@ -330,7 +347,8 @@ class restore_format_tiles_plugin extends restore_format_plugin {
     private static function update_file_records_sections($newcourseid, $contextid, $olditemid, $newitemid) {
         global $DB;
         $fileids = $DB->get_fieldset_select(
-            'files', 'id',
+            'files',
+            'id',
             "contextid = :coursecontextid AND component = 'format_tiles'
             AND filearea = 'tilephoto' AND filepath = '/tilephoto/'
             AND itemid = :olditemid AND filesize > 0 AND filename != '.'",
@@ -396,9 +414,12 @@ class restore_format_tiles_plugin extends restore_format_plugin {
         } catch (Exception $e) {
             debugging($e->getMessage(), DEBUG_DEVELOPER);
             throw new moodle_exception(
-                'invalidrecordid', 'format_tiles', '',
+                'invalidrecordid',
+                'format_tiles',
+                '',
                 'Could not insert photo. Database table format_tiles_tile_options is not ready.'.
-                '  An administrator must visit the notifications section.');
+                '  An administrator must visit the notifications section.'
+            );
         }
     }
 

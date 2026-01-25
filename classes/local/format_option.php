@@ -215,7 +215,8 @@ class format_option {
         $cachekeys = array_map(
             function($cacheid) use ($keyprefix) {
                 return $keyprefix . "_" . $cacheid;
-            }, $cachedvalueids
+            },
+            $cachedvalueids
         );
         $cachedvalues = $cache->get_many($cachekeys);
         if (!$cachedvalues) {
@@ -226,7 +227,8 @@ class format_option {
         $newkeys = array_map(
             function($oldkey) {
                 return explode("_", $oldkey)[2];
-            }, $oldkeys
+            },
+            $oldkeys
         );
         return array_combine($newkeys, $cachedvalues);
     }
@@ -464,7 +466,10 @@ class format_option {
             $queryparams['sectionid'] = $sectionid;
         }
         return $DB->get_recordset(
-            'course_format_options', $queryparams, 'courseid, sectionid', 'id, sectionid, value'
+            'course_format_options',
+            $queryparams,
+            'courseid, sectionid',
+            'id, sectionid, value'
         );
     }
 
@@ -547,7 +552,7 @@ class format_option {
     public static function delete_legacy_format_options(int $courseid) {
         global $DB;
         $legacyoptions = $DB->get_recordset_sql(
-        "SELECT id, sectionid, name FROM {course_format_options}
+            "SELECT id, sectionid, name FROM {course_format_options}
             WHERE courseid = ? AND format = 'tiles' AND name IN ('tilephoto', 'tileicon')",
             [$courseid]
         );

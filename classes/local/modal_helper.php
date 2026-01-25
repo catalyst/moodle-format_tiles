@@ -108,7 +108,8 @@ class modal_helper {
             return $result;
         }
         $lastmimetypefilecms = $DB->get_recordset_sql(
-            "SELECT cm.id AS cmid, f.mimetype, $basesql AND f.mimetype $insql GROUP BY cm.id, f.mimetype", $params
+            "SELECT cm.id AS cmid, f.mimetype, $basesql AND f.mimetype $insql GROUP BY cm.id, f.mimetype",
+            $params
         );
         // Now check if the highest sortorder ("main") file on each CM is of the right MIME type.
         if ($lastmimetypefilecms->valid()) {

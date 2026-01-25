@@ -86,7 +86,8 @@ class behat_format_tiles extends behat_base {
         $stylesincluded = $this->getSession()->evaluateScript($jsscript);
         if (!$stylesincluded) {
             throw new \Behat\Mink\Exception\ExpectationException(
-                "Style tag for dynamic styles not found", $this->getSession()
+                "Style tag for dynamic styles not found",
+                $this->getSession()
             );
         }
     }
@@ -119,7 +120,8 @@ class behat_format_tiles extends behat_base {
         $result = $this->getSession()->evaluateScript($script);
         if (!$result) {
             throw new \Behat\Mink\Exception\ExpectationException(
-                "Tiles JS config div not found", $this->getSession()
+                "Tiles JS config div not found",
+                $this->getSession()
             );
         }
     }
@@ -141,7 +143,8 @@ class behat_format_tiles extends behat_base {
             return $result;
         }
         throw new \Behat\Mink\Exception\ExpectationException(
-            "Error getting CSS property '$property' for element '$selector'", $this->getSession()
+            "Error getting CSS property '$property' for element '$selector'",
+            $this->getSession()
         );
     }
 
@@ -223,7 +226,7 @@ class behat_format_tiles extends behat_base {
         $this->getSession()->wait(1500);
         if (!isset($cms[$activitytitle])) {
             throw new \Behat\Mink\Exception\ExpectationException(
-            "Activity type '$modtype' title '$activitytitle' not found in $coursefullname."
+                "Activity type '$modtype' title '$activitytitle' not found in $coursefullname."
                         . "Available cms ". json_encode(array_keys($cms)),
                 $this->getSession()
             );
@@ -353,7 +356,8 @@ class behat_format_tiles extends behat_base {
         // xpath is to find the li (the ancestor) which contains an element where the text is activity name.
         $xpath = "//text()[contains(.,'" . $activitytitle . "')]/ancestor::li[contains(@class, '" . $liclass . "')]";
         $this->wait_for_pending_js();
-        $this->execute("behat_general::wait_until_exists",
+        $this->execute(
+            "behat_general::wait_until_exists",
             [$this->escape($xpath), "xpath_element"]
         );
     }
@@ -486,7 +490,8 @@ class behat_format_tiles extends behat_base {
             $fullxpath = $xpath
                 . "/descendant::div[contains(@class, 'section-actions')]/descendant::a[contains(@data-toggle, 'dropdown')]";
             $exception = new \Behat\Mink\Exception\ExpectationException(
-                'Tile "' . $sectionnumber . '" edit menu was not found', $this->getSession()
+                'Tile "' . $sectionnumber . '" edit menu was not found',
+                $this->getSession()
             );
             $menu = $this->find('xpath', $fullxpath, $exception);
             $menu->click();
@@ -494,7 +499,8 @@ class behat_format_tiles extends behat_base {
 
         // Click on show/hide link.
         $strhide = get_string($showhide, 'format_tiles');
-        $this->execute('behat_general::i_click_on_in_the',
+        $this->execute(
+            'behat_general::i_click_on_in_the',
             [$strhide, "link", $this->escape($xpath), "xpath_element"]
         );
 
@@ -537,17 +543,22 @@ class behat_format_tiles extends behat_base {
         $courseid = $DB->get_field('course', 'id', ['fullname' => $coursename], IGNORE_MISSING);
         if (!$courseid) {
             throw new \Behat\Mink\Exception\ExpectationException(
-                "Cannot find course ID for course $coursename",  $this->getSession()
+                "Cannot find course ID for course $coursename",
+                $this->getSession()
             );
         }
         $context = context_course::instance($courseid, IGNORE_MISSING);
         if (!$context) {
             throw new \Behat\Mink\Exception\ExpectationException(
-                "Cannot find course context for course $coursename, ID $courseid",  $this->getSession()
+                "Cannot find course context for course $coursename, ID $courseid",
+                $this->getSession()
             );
         }
         $sectionid = $DB->get_field(
-            'course_sections', 'id', ['course' => $courseid, 'section' => $sectionnumber], MUST_EXIST
+            'course_sections',
+            'id',
+            ['course' => $courseid, 'section' => $sectionnumber],
+            MUST_EXIST
         );
 
         $tilephoto = new \format_tiles\local\tile_photo($context, $sectionid);
@@ -600,10 +611,15 @@ class behat_format_tiles extends behat_base {
         global $DB;
         $courseid = $DB->get_field('course', 'id', ['fullname' => $coursename], MUST_EXIST);
         $sectionid = $DB->get_field(
-            'course_sections', 'id', ['course' => $courseid, 'section' => $sectionnumber], MUST_EXIST
+            'course_sections',
+            'id',
+            ['course' => $courseid, 'section' => $sectionnumber],
+            MUST_EXIST
         );
         $photo = \format_tiles\local\format_option::get(
-            $courseid, format_tiles\local\format_option::OPTION_SECTION_PHOTO, $sectionid
+            $courseid,
+            format_tiles\local\format_option::OPTION_SECTION_PHOTO,
+            $sectionid
         );
         if ($photo) {
             throw new \Behat\Mink\Exception\ExpectationException(

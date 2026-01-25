@@ -309,7 +309,8 @@ class util {
         }
 
         $jsconfigvalues['defaultcourseicon'] = $DB->get_field(
-            'course_format_options', 'value',
+            'course_format_options',
+            'value',
             ['courseid' => $courseid, 'format' => 'tiles', 'sectionid' => 0, 'name' => 'defaulttileicon']
         );
 

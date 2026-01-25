@@ -73,8 +73,9 @@ class before_footer_html_generation {
                     }
                 }
                 $PAGE->requires->js_call_amd(
-                    'format_tiles/course_mod_modal', 'init',
-                [$PAGE->course->id, false, $PAGE->pagetype, $launchmodalcmid, $usingjsnav]
+                    'format_tiles/course_mod_modal',
+                    'init',
+                    [$PAGE->course->id, false, $PAGE->pagetype, $launchmodalcmid, $usingjsnav]
                 );
             }
 

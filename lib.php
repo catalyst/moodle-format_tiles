@@ -562,7 +562,8 @@ class format_tiles extends core_courseformat\base {
             $PAGE->requires->js_call_amd('format_tiles/edit_form_helper', 'init', $jsparams);
         } else {
             // Add a tip to the edit section form for anyone who does not know how to edit tile icon/photos.
-            $mform->addElement('html',
+            $mform->addElement(
+                'html',
                 html_writer::div(
                     html_writer::div(get_string('setbackgroundphoto', 'format_tiles'), 'col-md-3 col-form-label')
                     . html_writer::div(get_string('tileselecttip', 'format_tiles'), 'col-md-9'),
@@ -893,7 +894,8 @@ class format_tiles extends core_courseformat\base {
                 $courseusessubtiles = get_config('format_tiles', 'allowsubtilesview')
                     && ($page->course->id ?? null)
                     && $DB->get_field(
-                        'course_format_options', 'value',
+                        'course_format_options',
+                        'value',
                         ['courseid' => $page->course->id, 'format' => 'tiles', 'sectionid' => 0, 'name' => 'courseusesubtiles']
                     ) == "1";
                 if (!$courseusessubtiles) {
@@ -936,7 +938,9 @@ function format_tiles_inplace_editable($itemtype, $itemid, $newvalue) {
     if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
         $section = $DB->get_record_sql(
             "SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?",
-            [$itemid, 'tiles'], MUST_EXIST);
+            [$itemid, 'tiles'],
+            MUST_EXIST
+        );
         return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
 }
@@ -1006,15 +1010,22 @@ function format_tiles_output_fragment_get_cm_list(array $args): string {
     $section = $DB->get_record('course_sections', ['id' => $sectionid]);
     if (!$section) {
         throw new moodle_exception(
-            'invalidsectionid', 'format_tiles', '', $sectionid, "Section ID '$sectionid' not found"
+            'invalidsectionid',
+            'format_tiles',
+            '',
+            $sectionid,
+            "Section ID '$sectionid' not found"
         );
     }
     $course = get_course($section->course);
 
     if ($course->format != 'tiles') {
         throw new moodle_exception(
-            'invalidsectionid', 'format_tiles', '',
-            $sectionid, "Course '$course->id' is not a tiles course"
+            'invalidsectionid',
+            'format_tiles',
+            '',
+            $sectionid,
+            "Course '$course->id' is not a tiles course"
         );
     }
 

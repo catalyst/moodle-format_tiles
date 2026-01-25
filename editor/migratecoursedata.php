@@ -82,7 +82,8 @@ if ($courseid) {
         // We need to ask the user if they are sure.
         echo $OUTPUT->header();
         echo html_writer::tag(
-            'h4', get_string('suremigratelegacyoptions', 'format_tiles', $countlegacyoptions),
+            'h4',
+            get_string('suremigratelegacyoptions', 'format_tiles', $countlegacyoptions),
             ['class' => 'mb-3']
         );
         $continueurl = new moodle_url($pageurl, ['sesskey' => sesskey()]);
@@ -107,7 +108,7 @@ $PAGE->navbar->add(get_string('pluginname', 'format_tiles'), $settingsurl);
 $PAGE->navbar->add(get_string('migratecoursedata', 'format_tiles'));
 
 $legacycourses = $DB->get_records_sql(
-"SELECT * FROM
+    "SELECT * FROM
         (SELECT c.id as courseid, c.fullname,
             (SELECT COUNT(cfo.id) FROM {course_format_options} cfo
                 WHERE cfo.courseid = c.id AND  cfo.format = 'tiles' AND cfo.name IN('tilephoto', 'tileicon')) as legacyoptions,
@@ -135,8 +136,10 @@ foreach ($legacycourses as $legacycourse) {
         $legacycourse->legacyoptions,
         $legacycourse->newoptions,
         html_writer::link(
-            new moodle_url('/course/format/tiles/editor/migratecoursedata.php',
-                ['courseid' => $legacycourse->courseid]),
+            new moodle_url(
+                '/course/format/tiles/editor/migratecoursedata.php',
+                ['courseid' => $legacycourse->courseid]
+            ),
             get_string('migratenow', 'format_tiles'),
             ['class' => 'btn btn-primary']
         ),

@@ -69,7 +69,8 @@ class external extends external_api {
     ) {
         global $DB, $OUTPUT;
 
-        $data = self::validate_parameters(self::set_image_parameters(),
+        $data = self::validate_parameters(
+            self::set_image_parameters(),
             [
                 'courseid' => $courseid,
                 'sectionid' => $sectionid,
@@ -81,8 +82,10 @@ class external extends external_api {
         );
 
         // Section id of zero means we are changing the course icon.  Otherwise check sec id is valid.
-        if ($data['sectionid'] && $DB->get_record('course_sections',
-                ['course' => $data['courseid'], 'id' => $data['sectionid']]) === false) {
+        if ($data['sectionid'] && $DB->get_record(
+            'course_sections',
+            ['course' => $data['courseid'], 'id' => $data['sectionid']]
+        ) === false) {
             throw new invalid_parameter_exception('Invalid course and section id combination');
         }
 
@@ -191,7 +194,9 @@ class external extends external_api {
 
             // If there is an icon attached to this element, clear it (as in this function we are setting a photo).
             \format_tiles\local\format_option::unset(
-                $data['courseid'], \format_tiles\local\format_option::OPTION_SECTION_ICON, $sectionid
+                $data['courseid'],
+                \format_tiles\local\format_option::OPTION_SECTION_ICON,
+                $sectionid
             );
 
             return ['status' => true, 'imageurl' => ''];
@@ -235,7 +240,9 @@ class external extends external_api {
         if ($file) {
             // If there is an icon attached to this element, clear it (as here we are setting a photo).
             \format_tiles\local\format_option::unset(
-                $data['courseid'], \format_tiles\local\format_option::OPTION_SECTION_ICON, $sectionid
+                $data['courseid'],
+                \format_tiles\local\format_option::OPTION_SECTION_ICON,
+                $sectionid
             );
             return ['status' => true, 'imageurl' => $tilephoto->get_image_url()];
         } else {
@@ -268,7 +275,8 @@ class external extends external_api {
 
         // We are dealing with a tile icon for one particular section, so check if user has picked the course default.
         $defaulticonthiscourse = $DB->get_field(
-            'course_format_options', 'value',
+            'course_format_options',
+            'value',
             ['courseid' => $data['courseid'], 'format' => 'tiles', 'sectionid' => 0, 'name' => 'defaulttileicon']
         );
         if ($data['image'] == $defaulticonthiscourse) {
@@ -340,10 +348,16 @@ class external extends external_api {
                 'image' => new external_value(PARAM_RAW, 'File name for the image picked'),
                 'imagetype' => new external_value(PARAM_RAW, 'Image type for image picked (tileicon, tilephoto, draftfile)'),
                 'sourcecontextid' => new external_value(
-                    PARAM_INT, 'File table context id for the photo file picked (0 if unused)', VALUE_DEFAULT, 0
+                    PARAM_INT,
+                    'File table context id for the photo file picked (0 if unused)',
+                    VALUE_DEFAULT,
+                    0
                 ),
                 'sourceitemid' => new external_value(
-                    PARAM_INT, 'File table item id for the photo file picked (0 if unused)', VALUE_DEFAULT, 0
+                    PARAM_INT,
+                    'File table item id for the photo file picked (0 if unused)',
+                    VALUE_DEFAULT,
+                    0
                 ),
             ]
         );
@@ -711,10 +725,15 @@ class external extends external_api {
                             ),
                             'percent' => new external_value(PARAM_INT, 'Percent complete', VALUE_OPTIONAL, 0),
                             'percentcircumf' => new external_value(
-                                PARAM_FLOAT, 'Circumference of radial indicator', VALUE_OPTIONAL, 0
+                                PARAM_FLOAT,
+                                'Circumference of radial indicator',
+                                VALUE_OPTIONAL,
+                                0
                             ),
                             'percentoffset' => new external_value(
-                                PARAM_INT, 'Percent offset for radial indicator'. VALUE_OPTIONAL, 0
+                                PARAM_INT,
+                                'Percent offset for radial indicator'. VALUE_OPTIONAL,
+                                0
                             ),
                             'iscomplete' => new external_value(PARAM_BOOL, 'Is the section complete', VALUE_OPTIONAL, false),
                             'isavailable' => new external_value(PARAM_BOOL, 'Is the section available (not restricted)'),

@@ -82,8 +82,12 @@ class provider implements \core_privacy\local\metadata\provider,
             $preference = get_user_preferences($prefname, $default, $userid);
             if (isset($preference)) {
                 $value = $preference ? get_string('yes') : get_string('no');
-                \core_privacy\local\request\writer::export_user_preference('format_tiles', $prefname,
-                    $value, get_string("privacy:metadata:preference:$prefname", 'format_tiles'));
+                \core_privacy\local\request\writer::export_user_preference(
+                    'format_tiles',
+                    $prefname,
+                    $value,
+                    get_string("privacy:metadata:preference:$prefname", 'format_tiles')
+                );
             }
         }
 

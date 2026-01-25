@@ -160,7 +160,9 @@ class renderer extends section_renderer {
         $parentdata = $widget->export_for_template($this);
         $sectionnum = $parentdata->num;
         $templateable = new \format_tiles\output\course_output(
-            $this->page->course, true, $sectionnum
+            $this->page->course,
+            true,
+            $sectionnum
         );
         $data = $templateable->export_for_template($this);
         $template = 'format_tiles/course_modules_subsection';

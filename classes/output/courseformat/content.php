@@ -79,14 +79,14 @@ class content extends content_base {
             $warneditorcompletion = $course->enablecompletion
                 && $DB->record_exists('course_modules', ['course' => $course->id, 'visible' => 1])
                 && !$DB->record_exists_sql(
-                "SELECT id FROM {course_modules} WHERE course = ? AND visible = 1 AND completion != 0",
-                [$course->id]
-            );
+                    "SELECT id FROM {course_modules} WHERE course = ? AND visible = 1 AND completion != 0",
+                    [$course->id]
+                );
 
             if ($warneditorcompletion) {
                 $bulklink = \html_writer::link(
-                  new \moodle_url('/course/bulkcompletion.php', ['id' => $course->id]),
-                  get_string('completionwarning_changeinbulk', 'format_tiles')
+                    new \moodle_url('/course/bulkcompletion.php', ['id' => $course->id]),
+                    get_string('completionwarning_changeinbulk', 'format_tiles')
                 );
                 $helplink = \html_writer::link(
                     get_docs_url('Activity_completion_settings#Changing_activity_completion_settings_in_bulk'),
