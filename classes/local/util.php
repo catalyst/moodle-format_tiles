@@ -31,6 +31,24 @@ namespace format_tiles\local;
  */
 class util {
     /**
+     * In Moodle 4.5+ a requested section may be a sub-section (delegated section).
+     * Tiles are only rendered for top level (parent) sections, so if the section given
+     * is a sub-section, resolve its parent section so that the correct tile can be opened.
+     * @param \section_info $section the section which may or may not be a sub-section.
+     * @return \section_info the parent section if $section is a sub-section, otherwise $section itself.
+     */
+    public static function get_real_tile_section(\section_info $section): \section_info {
+        if (self::get_moodle_release() >= 4.5 && ($section->is_delegated() ?? false)) {
+            $delegate = $section->get_component_instance();
+            $parentsection = $delegate ? $delegate->get_parent_section() : null;
+            if ($parentsection) {
+                return $parentsection;
+            }
+        }
+        return $section;
+    }
+
+    /**
      * Get information about a particular course module including whether modal is allowed.
      * Called by web service when deciding how to handle an activity click.
      * @param int $courseid
@@ -254,6 +272,22 @@ class util {
             $SESSION->editing_last_edited_section = $course->id . "-" . $sectionnumber;
         }
 
+        // If the requested section is a sub-section, tiles only exist for its parent, so open that
+        // instead and tell the JS which sub-section to expand within it once loaded.
+        $subsectionid = null;
+        $subsectionnum = null;
+        if ($sectionnumber) {
+            $section = get_fast_modinfo($course)->get_section_info($sectionnumber);
+            if ($section) {
+                $realsection = self::get_real_tile_section($section);
+                if ($realsection->id != $section->id) {
+                    $subsectionid = $section->id;
+                    $subsectionnum = $section->section;
+                    $sectionnumber = $realsection->section;
+                }
+            }
+        }
+
         $usejsnav = self::using_js_nav();
         if (!$PAGE->user_is_editing()) {
             // Initialise the main JS module for non editing users.
@@ -262,6 +296,8 @@ class util {
                 'useJSNav' => $usejsnav, // See also lib.php page_set_course().
                 'isMobile' => \core_useragent::get_device_type() == \core_useragent::DEVICETYPE_MOBILE ? 1 : 0,
                 'jsSectionNum' => $sectionnumber ?? optional_param('expand', 0, PARAM_INT),
+                'jsSubSectionId' => $subsectionid,
+                'jsSubSectionNum' => $subsectionnum,
                 'displayFilterBar' => $course->displayfilterbar,
                 'assumeDataStoreContent' => get_config('format_tiles', 'assumedatastoreconsent'),
                 'reOpenLastSection' => get_config('format_tiles', 'reopenlastsection'),

@@ -46,6 +46,10 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
          */
         var expandedSubSectionIds = {};
 
+        // If a URL/breadcrumb pointed at a sub-section, its id/number is stored here until its parent tile loads.
+        var pendingSubSectionId = 0;
+        var pendingSubSectionNum = 0;
+
          // Keep a record of which tile is currently open.
         var openTile = 0;
 
@@ -575,6 +579,31 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
         };
 
         /**
+         * If the page was loaded pointing at a sub-section nested inside the tile content area just
+         * populated, expand that sub-section now. Its collapse element is found by ID or by section
+         * number since the ID used depends on which template rendered it (see pendingSubSectionId).
+         * @param {Object} contentArea the jquery object for the tile content area just populated.
+         */
+        var expandPendingSubSection = function (contentArea) {
+            if (!pendingSubSectionId && !pendingSubSectionNum) {
+                return;
+            }
+            var collapseDiv = contentArea.find('#coursecontentcollapse' + pendingSubSectionId);
+            if (!collapseDiv.length) {
+                collapseDiv = contentArea.find('#coursecontentcollapse' + pendingSubSectionNum);
+            }
+            if (collapseDiv.length && !collapseDiv.hasClass('show')) {
+                collapseDiv.collapse('show');
+                if (pendingSubSectionId) {
+                    // Keep this subsection expanded if its content is later re-fetched (see setCourseContentHTML).
+                    expandedSubSectionIds[pendingSubSectionId] = true;
+                }
+            }
+            pendingSubSectionId = 0;
+            pendingSubSectionNum = 0;
+        };
+
+        /**
          * To be called when a tile is clicked. Get content from server or storage and display or store it.
          * @param {number} courseContextId course context id of this course.
          * @param {number} sectionId section Id for the clicked section.
@@ -609,6 +638,7 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 // Still contact the server in case content has changed (e.g. restrictions now satisfied).
                 getSectionContentFromServer(courseContextId, sectionId).done(function (html, js) {
                     setCourseContentHTML(relatedContentArea, html, js);
+                    expandPendingSubSection(relatedContentArea);
                 }).fail(function (failResult) {
                     failedLoadSectionNotify(sectionNumber, failResult, relatedContentArea);
                     cancelTileSelections(sectionNumber);
@@ -618,6 +648,7 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 // Get from server.
                 getSectionContentFromServer(courseContextId, sectionId).done(function (html, js) {
                     setCourseContentHTML(relatedContentArea, html, js);
+                    expandPendingSubSection(relatedContentArea);
                     expandSection(relatedContentArea, sectionNumber);
                 }).fail(function (failResult) {
                     failedLoadSectionNotify(sectionNumber, failResult, relatedContentArea);
@@ -687,6 +718,8 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 useJavascriptNav, // Set by site admin see settings.php.
                 isMobileInit,
                 sectionNum,
+                subSectionIdInit, // If originally requested section was a sub-section, its ID (sectionNum is its parent tile).
+                subSectionNumInit, // The same sub-section's own section number.
                 useFilterButtons, // If > 0 then are using filters (value depends on filter type).
                 assumeDataStoreConsent, // Set by site admin see settings.php.
                 reopenLastSectionInit, // Set by site admin see settings.php.
@@ -703,6 +736,9 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 reopenLastVisitedSection = reopenLastSectionInit === "1";
                 assumeDataStoreConsent = assumeDataStoreConsent === "1";
                 enableCompletion = enableCompletionInit === "1";
+                // Store these so the sub-section can be expanded once its parent tile's content has loaded.
+                pendingSubSectionId = subSectionIdInit ? parseInt(subSectionIdInit) : 0;
+                pendingSubSectionNum = subSectionNumInit ? parseInt(subSectionNumInit) : 0;
                  // We want to initialise the browser storage JS module for storing user settings.
                 browserStorage.init(
                     courseId,
