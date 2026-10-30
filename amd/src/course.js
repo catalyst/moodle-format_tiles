@@ -580,22 +580,25 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
 
         /**
          * If the page was loaded pointing at a sub-section nested inside the tile content area just
-         * populated, expand that sub-section now. Its collapse element is found by ID or by section
-         * number since the ID used depends on which template rendered it (see pendingSubSectionId).
+         * populated, expand that sub-section now. When sub-tiles are off (or editing), the sub-section
+         * is a nested section (format_tiles/local/content/delegatedsection) keyed by number; otherwise
+         * it's the sub-tiles widget (format_tiles/course_modules_subsection) keyed by id. We check which
+         * wrapper is present (scoped by id, which is always unique) to avoid a number/id clash with a
+         * sibling section.
          * @param {Object} contentArea the jquery object for the tile content area just populated.
          */
         var expandPendingSubSection = function (contentArea) {
             if (!pendingSubSectionId && !pendingSubSectionNum) {
                 return;
             }
-            var collapseDiv = contentArea.find('#coursecontentcollapse' + pendingSubSectionId);
-            if (!collapseDiv.length) {
-                collapseDiv = contentArea.find('#coursecontentcollapse' + pendingSubSectionNum);
-            }
+            var delegatedSection = contentArea.find('.delegated-section[data-id="' + pendingSubSectionId + '"]');
+            var collapseDiv = delegatedSection.length
+                ? delegatedSection.find('#coursecontentcollapse' + pendingSubSectionNum)
+                : contentArea.find('.tiles-subsection-content #coursecontentcollapse' + pendingSubSectionId);
             if (collapseDiv.length && !collapseDiv.hasClass('show')) {
                 collapseDiv.collapse('show');
-                if (pendingSubSectionId) {
-                    // Keep this subsection expanded if its content is later re-fetched (see setCourseContentHTML).
+                if (!delegatedSection.length) {
+                    // Only the sub-tiles widget's expanded state is restored on re-fetch (see setCourseContentHTML).
                     expandedSubSectionIds[pendingSubSectionId] = true;
                 }
             }
@@ -763,6 +766,10 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                     // If we are being told to launch a section number from the URL, use that.
                     if (sectionNum !== 0) {
                         openTile = sectionNum;
+                    } else if (pendingSubSectionId || pendingSubSectionNum) {
+                        // The requested sub-section's parent is General (section zero), which is not a tile
+                        // and is handled separately below, so don't fall back to reopening the last-visited tile.
+                        openTile = 0;
                     } else {
                         // Don't use the URL param - check local storage instead.
                         if (reopenLastVisitedSection && browserStorage.storageEnabledLocal) {
@@ -1021,6 +1028,17 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                                 browserStorage.setSecZeroCollapseStatus("expanded");
                             }
                         });
+                    }
+
+                    if (sectionNum === 0 && (pendingSubSectionId || pendingSubSectionNum)) {
+                        // General has no tile-loading callback, so reveal it and expand the requested
+                        // sub-section here directly, regardless of the user's section-zero collapse preference.
+                        if (sectionZero.css(CSS.DISPLAY) === "none") {
+                            sectionZero.slideDown(250);
+                            $(Selector.ABOVE_TILES).removeClass('sec-zero-closed');
+                            buttonHideSecZero.addClass(ClassNames.OPEN).removeClass(ClassNames.CLOSED);
+                        }
+                        expandPendingSubSection(sectionZero);
                     }
 
                     if (useFilterButtons) {
