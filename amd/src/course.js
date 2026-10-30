@@ -45,6 +45,15 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
          * @type {{}}
          */
         var expandedSubSectionIds = {};
+        /**
+         * As expandedSubSectionIds, but for delegated sections (sub-tiles off), keyed by section number.
+         * @type {{}}
+         */
+        var expandedDelegatedSectionNums = {};
+
+        // If a URL/breadcrumb pointed at a sub-section, its id/number is stored here until its parent tile loads.
+        var pendingSubSectionId = 0;
+        var pendingSubSectionNum = 0;
 
          // Keep a record of which tile is currently open.
         var openTile = 0;
@@ -223,6 +232,17 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                         }
                     }
                 });
+                const delegatedSections = newHtml.find('.delegated-section');
+                delegatedSections.each((i) => {
+                    const delegatedSection = $(delegatedSections[i]);
+                    const collapseContent = delegatedSection.find('.course-content-item-content.collapse');
+                    if (collapseContent.length && expandedDelegatedSectionNums[delegatedSection.data('number')]) {
+                        // As above, manipulate the detached HTML directly rather than use .collapse('show').
+                        delegatedSection.find('a[data-toggle="collapse"]')
+                            .removeClass('collapsed').attr('aria-expanded', true);
+                        collapseContent.addClass('show').addClass('collapse').removeClass('collapsing');
+                    }
+                });
 
                 contentArea.html(newHtml.html());
 
@@ -238,6 +258,16 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                         expandedSubSectionIds[subSectionId] = true;
                     } else if (!isCollapsed && expandedSubSectionIds[subSectionId] !== undefined) {
                         delete expandedSubSectionIds[subSectionId];
+                    }
+                });
+                contentArea.find('.delegated-section a[data-toggle="collapse"]').on(Event.CLICK, (e) => {
+                    const sectionNumber = $(e.currentTarget).closest('.delegated-section').data('number');
+                    const collapseContent = $('#coursecontentcollapse' + sectionNumber);
+                    const isCollapsed = collapseContent.length && !collapseContent.hasClass('show');
+                    if (isCollapsed && expandedDelegatedSectionNums[sectionNumber] === undefined) {
+                        expandedDelegatedSectionNums[sectionNumber] = true;
+                    } else if (!isCollapsed && expandedDelegatedSectionNums[sectionNumber] !== undefined) {
+                        delete expandedDelegatedSectionNums[sectionNumber];
                     }
                 });
 
@@ -575,6 +605,36 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
         };
 
         /**
+         * If the page was loaded pointing at a sub-section nested inside the tile content area just
+         * populated, expand that sub-section now. When sub-tiles are off (or editing), the sub-section
+         * is a nested section (format_tiles/local/content/delegatedsection) keyed by number; otherwise
+         * it's the sub-tiles widget (format_tiles/course_modules_subsection) keyed by id. We check which
+         * wrapper is present (scoped by id, which is always unique) to avoid a number/id clash with a
+         * sibling section.
+         * @param {Object} contentArea the jquery object for the tile content area just populated.
+         */
+        var expandPendingSubSection = function (contentArea) {
+            if (!pendingSubSectionId && !pendingSubSectionNum) {
+                return;
+            }
+            var delegatedSection = contentArea.find('.delegated-section[data-id="' + pendingSubSectionId + '"]');
+            var collapseDiv = delegatedSection.length
+                ? delegatedSection.find('#coursecontentcollapse' + pendingSubSectionNum)
+                : contentArea.find('.tiles-subsection-content #coursecontentcollapse' + pendingSubSectionId);
+            if (collapseDiv.length && !collapseDiv.hasClass('show')) {
+                collapseDiv.collapse('show');
+                if (delegatedSection.length) {
+                    // Keep this expanded if its tile's content is later re-fetched (see setCourseContentHTML).
+                    expandedDelegatedSectionNums[pendingSubSectionNum] = true;
+                } else {
+                    expandedSubSectionIds[pendingSubSectionId] = true;
+                }
+            }
+            pendingSubSectionId = 0;
+            pendingSubSectionNum = 0;
+        };
+
+        /**
          * To be called when a tile is clicked. Get content from server or storage and display or store it.
          * @param {number} courseContextId course context id of this course.
          * @param {number} sectionId section Id for the clicked section.
@@ -609,6 +669,7 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 // Still contact the server in case content has changed (e.g. restrictions now satisfied).
                 getSectionContentFromServer(courseContextId, sectionId).done(function (html, js) {
                     setCourseContentHTML(relatedContentArea, html, js);
+                    expandPendingSubSection(relatedContentArea);
                 }).fail(function (failResult) {
                     failedLoadSectionNotify(sectionNumber, failResult, relatedContentArea);
                     cancelTileSelections(sectionNumber);
@@ -618,6 +679,7 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 // Get from server.
                 getSectionContentFromServer(courseContextId, sectionId).done(function (html, js) {
                     setCourseContentHTML(relatedContentArea, html, js);
+                    expandPendingSubSection(relatedContentArea);
                     expandSection(relatedContentArea, sectionNumber);
                 }).fail(function (failResult) {
                     failedLoadSectionNotify(sectionNumber, failResult, relatedContentArea);
@@ -687,6 +749,8 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 useJavascriptNav, // Set by site admin see settings.php.
                 isMobileInit,
                 sectionNum,
+                subSectionIdInit, // If originally requested section was a sub-section, its ID (sectionNum is its parent tile).
+                subSectionNumInit, // The same sub-section's own section number.
                 useFilterButtons, // If > 0 then are using filters (value depends on filter type).
                 assumeDataStoreConsent, // Set by site admin see settings.php.
                 reopenLastSectionInit, // Set by site admin see settings.php.
@@ -703,6 +767,9 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 reopenLastVisitedSection = reopenLastSectionInit === "1";
                 assumeDataStoreConsent = assumeDataStoreConsent === "1";
                 enableCompletion = enableCompletionInit === "1";
+                // Store these so the sub-section can be expanded once its parent tile's content has loaded.
+                pendingSubSectionId = subSectionIdInit ? parseInt(subSectionIdInit) : 0;
+                pendingSubSectionNum = subSectionNumInit ? parseInt(subSectionNumInit) : 0;
                  // We want to initialise the browser storage JS module for storing user settings.
                 browserStorage.init(
                     courseId,
@@ -727,6 +794,10 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                     // If we are being told to launch a section number from the URL, use that.
                     if (sectionNum !== 0) {
                         openTile = sectionNum;
+                    } else if (pendingSubSectionId || pendingSubSectionNum) {
+                        // The requested sub-section's parent is General (section zero), which is not a tile
+                        // and is handled separately below, so don't fall back to reopening the last-visited tile.
+                        openTile = 0;
                     } else {
                         // Don't use the URL param - check local storage instead.
                         if (reopenLastVisitedSection && browserStorage.storageEnabledLocal) {
@@ -985,6 +1056,17 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                                 browserStorage.setSecZeroCollapseStatus("expanded");
                             }
                         });
+                    }
+
+                    if (sectionNum === 0 && (pendingSubSectionId || pendingSubSectionNum)) {
+                        // General has no tile-loading callback, so reveal it and expand the requested
+                        // sub-section here directly, regardless of the user's section-zero collapse preference.
+                        if (sectionZero.css(CSS.DISPLAY) === "none") {
+                            sectionZero.slideDown(250);
+                            $(Selector.ABOVE_TILES).removeClass('sec-zero-closed');
+                            buttonHideSecZero.addClass(ClassNames.OPEN).removeClass(ClassNames.CLOSED);
+                        }
+                        expandPendingSubSection(sectionZero);
                     }
 
                     if (useFilterButtons) {
