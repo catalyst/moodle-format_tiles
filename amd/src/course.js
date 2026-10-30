@@ -45,6 +45,11 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
          * @type {{}}
          */
         var expandedSubSectionIds = {};
+        /**
+         * As expandedSubSectionIds, but for delegated sections (sub-tiles off), keyed by section number.
+         * @type {{}}
+         */
+        var expandedDelegatedSectionNums = {};
 
         // If a URL/breadcrumb pointed at a sub-section, its id/number is stored here until its parent tile loads.
         var pendingSubSectionId = 0;
@@ -227,6 +232,17 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                         }
                     }
                 });
+                const delegatedSections = newHtml.find('.delegated-section');
+                delegatedSections.each((i) => {
+                    const delegatedSection = $(delegatedSections[i]);
+                    const collapseContent = delegatedSection.find('.course-content-item-content.collapse');
+                    if (collapseContent.length && expandedDelegatedSectionNums[delegatedSection.data('number')]) {
+                        // As above, manipulate the detached HTML directly rather than use .collapse('show').
+                        delegatedSection.find('a[data-toggle="collapse"]')
+                            .removeClass('collapsed').attr('aria-expanded', true);
+                        collapseContent.addClass('show').addClass('collapse').removeClass('collapsing');
+                    }
+                });
 
                 contentArea.html(newHtml.html());
 
@@ -242,6 +258,16 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                         expandedSubSectionIds[subSectionId] = true;
                     } else if (!isCollapsed && expandedSubSectionIds[subSectionId] !== undefined) {
                         delete expandedSubSectionIds[subSectionId];
+                    }
+                });
+                contentArea.find('.delegated-section a[data-toggle="collapse"]').on(Event.CLICK, (e) => {
+                    const sectionNumber = $(e.currentTarget).closest('.delegated-section').data('number');
+                    const collapseContent = $('#coursecontentcollapse' + sectionNumber);
+                    const isCollapsed = collapseContent.length && !collapseContent.hasClass('show');
+                    if (isCollapsed && expandedDelegatedSectionNums[sectionNumber] === undefined) {
+                        expandedDelegatedSectionNums[sectionNumber] = true;
+                    } else if (!isCollapsed && expandedDelegatedSectionNums[sectionNumber] !== undefined) {
+                        delete expandedDelegatedSectionNums[sectionNumber];
                     }
                 });
 
@@ -597,8 +623,10 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 : contentArea.find('.tiles-subsection-content #coursecontentcollapse' + pendingSubSectionId);
             if (collapseDiv.length && !collapseDiv.hasClass('show')) {
                 collapseDiv.collapse('show');
-                if (!delegatedSection.length) {
-                    // Only the sub-tiles widget's expanded state is restored on re-fetch (see setCourseContentHTML).
+                if (delegatedSection.length) {
+                    // Keep this expanded if its tile's content is later re-fetched (see setCourseContentHTML).
+                    expandedDelegatedSectionNums[pendingSubSectionNum] = true;
+                } else {
                     expandedSubSectionIds[pendingSubSectionId] = true;
                 }
             }
